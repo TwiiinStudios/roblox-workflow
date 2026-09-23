@@ -1,0 +1,7 @@
+{
+	"className": "Atmosphere",
+	"properties": {
+		"Density": 0.3,
+		"Haze": 1
+	}
+}

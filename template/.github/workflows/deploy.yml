@@ -1,0 +1,61 @@
+# Publishes the game to Roblox.
+#   - Every push to main  -> TEST place (automatic)
+#   - Actions tab > Deploy > "Run workflow" -> choose test or live (manual)
+#
+# Needs: repository secret ROBLOX_API_KEY and the IDs in deploy.json.
+# Until both are set up, this workflow builds and then skips publishing with a warning.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Where to publish"
+        type: choice
+        options: [test, live]
+        default: test
+
+concurrency:
+  group: deploy-${{ inputs.target || 'test' }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      TARGET: ${{ inputs.target || 'test' }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Only main can go live
+        if: env.TARGET == 'live' && github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::LIVE can only be published from the main branch."
+          exit 1
+
+      - name: Install toolchain (rokit.toml)
+        uses: CompeyDev/setup-rokit@v0.2.1
+        with:
+          cache: true
+
+      - name: Install packages (wally.toml)
+        run: wally install
+
+      - name: Check and build
+        run: lune run tools/check.luau
+
+      - name: Publish to ${{ env.TARGET }}
+        env:
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}
+        run: |
+          if [ -z "$ROBLOX_API_KEY" ]; then
+            echo "::warning::ROBLOX_API_KEY secret is not set - skipping publish."
+            exit 0
+          fi
+          if ! jq -e ".${TARGET}.placeId != 0" deploy.json > /dev/null; then
+            echo "::warning::deploy.json has no place ID for ${TARGET} - skipping publish."
+            exit 0
+          fi
+          lune run tools/publish.luau "$TARGET" --yes

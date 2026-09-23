@@ -1,0 +1,15 @@
+# Package manager for third-party Luau libraries (optional).
+# Add a dependency under [dependencies] (shared) or [server-dependencies], then run:
+#   wally install
+# Packages/ and ServerPackages/ are generated and git-ignored.
+# Browse packages: https://wally.run
+
+[package]
+name = "__WALLY_NAME__"
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]
+
+[server-dependencies]

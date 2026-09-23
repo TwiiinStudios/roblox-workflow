@@ -1,0 +1,13 @@
+{
+	"className": "Part",
+	"properties": {
+		"Anchored": true,
+		"Locked": true,
+		"Size": [512, 4, 512],
+		"CFrame": { "CFrame": { "position": [0, -2, 0], "orientation": [[1, 0, 0], [0, 1, 0], [0, 0, 1]] } },
+		"Material": "Grass",
+		"Color": [0.36, 0.62, 0.29],
+		"TopSurface": "Smooth",
+		"BottomSurface": "Smooth"
+	}
+}

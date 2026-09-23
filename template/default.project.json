@@ -1,0 +1,54 @@
+{
+	"name": "__GAME_NAME__",
+	"tree": {
+		"$className": "DataModel",
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
+			"$ignoreUnknownInstances": true,
+			"Shared": {
+				"$path": "src/shared"
+			},
+			"Assets": {
+				"$path": "assets"
+			},
+			"Packages": {
+				"$path": { "optional": "Packages" }
+			}
+		},
+		"ServerScriptService": {
+			"$className": "ServerScriptService",
+			"$ignoreUnknownInstances": true,
+			"Server": {
+				"$path": "src/server"
+			}
+		},
+		"ServerStorage": {
+			"$className": "ServerStorage",
+			"$ignoreUnknownInstances": true,
+			"ServerPackages": {
+				"$path": { "optional": "ServerPackages" }
+			}
+		},
+		"StarterPlayer": {
+			"$className": "StarterPlayer",
+			"$ignoreUnknownInstances": true,
+			"StarterPlayerScripts": {
+				"$className": "StarterPlayerScripts",
+				"$ignoreUnknownInstances": true,
+				"Client": {
+					"$path": "src/client"
+				}
+			}
+		},
+		"Workspace": {
+			"$className": "Workspace",
+			"$ignoreUnknownInstances": true,
+			"Map": {
+				"$path": "world/Map"
+			}
+		},
+		"Lighting": {
+			"$path": "world/Lighting"
+		}
+	}
+}

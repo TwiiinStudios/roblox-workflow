@@ -1,0 +1,43 @@
+# Claude reviews every pull request automatically (opened / new commits pushed)
+# and leaves comments. It does not approve, merge or change code.
+# Uses the same CLAUDE_CODE_OAUTH_TOKEN secret as claude.yml.
+name: Claude Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review]
+
+jobs:
+  review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            Review this pull request for a Roblox game. Follow the rules in CLAUDE.md.
+            Focus on, in this order:
+            1. Security: every RemoteEvent/RemoteFunction handler must validate client input on the server;
+               money, items and stats must be decided by the server; no secrets in shared/client code.
+            2. Bugs: nil errors, race conditions with PlayerAdded/CharacterAdded, memory leaks
+               (connections never disconnected), DataStore misuse.
+            3. Rule breaks from CLAUDE.md (Position in .model.json, hand-edited Captured files,
+               magic numbers that belong in Config, remotes not declared in Remotes.luau).
+            Skip style nitpicks - StyLua and selene handle style.
+            Use inline comments for specific lines. Finish with one short summary comment:
+            "Looks good to merge" or a numbered list of what must change.
+          claude_args: |
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"

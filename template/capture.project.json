@@ -1,0 +1,28 @@
+{
+	"name": "__GAME_NAME__-capture",
+	"tree": {
+		"$className": "DataModel",
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
+			"$ignoreUnknownInstances": true,
+			"Assets": {
+				"$className": "Folder",
+				"$ignoreUnknownInstances": true,
+				"Captured": {
+					"$path": "assets/Captured"
+				}
+			}
+		},
+		"Workspace": {
+			"$className": "Workspace",
+			"$ignoreUnknownInstances": true,
+			"Map": {
+				"$className": "Folder",
+				"$ignoreUnknownInstances": true,
+				"Captured": {
+					"$path": "world/Map/Captured"
+				}
+			}
+		}
+	}
+}

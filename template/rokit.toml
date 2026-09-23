@@ -1,0 +1,10 @@
+# Toolchain for this game. Everyone gets the exact same versions:
+#   rokit install
+# Upgrade a tool with: rokit update <tool>   (then commit this file)
+
+[tools]
+rojo = "rojo-rbx/rojo@7.7.0"
+lune = "lune-org/lune@0.10.5"
+selene = "kampfkarren/selene@0.31.0"
+stylua = "johnnymorganz/stylua@2.5.2"
+wally = "upliftgames/wally@0.3.2"
