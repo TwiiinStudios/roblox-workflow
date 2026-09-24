@@ -26,19 +26,17 @@ Claude installs everything else (Git, GitHub CLI, Rokit + tools, Roblox Studio, 
 connection), downloads all our games, and tells you the few clicks only you can do: "Yes" on Windows install prompts,
 logging in to GitHub in your browser, logging in to Roblox Studio. Details: [01 · One-time setup](docs/01-one-time-setup.md).
 
-## 🐸 The workflow (remember four words)
-
-```
- START  →  BUILD  →  SHIP  →  PLAY          (+ PAUSE when you stop before it's finished)
-```
+## 🐸 The workflow: BUILD → SHIP → PLAY
 
 | | You |
 |---|---|
-| **0** | Discord: *"I'm doing the fly shop"* |
-| **START** | Open Roblox Studio → VS Code in the game folder → Claude: **"Start"** → Studio: **Plugins → Rojo → Connect** |
-| **BUILD** | Tell Claude what you want. It builds and tests it in Studio by itself |
-| **SHIP** | **"Ship it"** → on the TEST game ~2 min later, Discord gets a message |
-| **PLAY** | Play TEST together in the Roblox app |
+| **Before** | Open **Roblox Studio** (start screen is enough) → **VS Code** in the game folder → Claude panel. Post in Discord what you're doing |
+| **BUILD** | Say what you want. Claude gets everything ready by itself and opens the game in Studio. When it shows up: **Plugins → Rojo → Connect**. Claude builds and tests it; give feedback until you like it |
+| **SHIP** | **"Ship it"**, or put "…and ship it" in your request → on the TEST game ~2 min later, Discord gets a message |
+| **PLAY** | Play the TEST game together in the Roblox app |
+
+Your work is saved online automatically. When you're done, just close VS Code.
+Sometimes: **"Share it"** (teammate looks first) · **"What changed?"** · **"Release to LIVE as v1.0.0"** (only when you both agreed).
 
 More: [04 · Daily workflow](docs/04-daily-workflow.md) · one page: [10 · Cheat sheet](docs/10-cheatsheet.md)
 
@@ -89,12 +87,13 @@ More: [04 · Daily workflow](docs/04-daily-workflow.md) · one page: [10 · Chea
 | 08 | [Conventions](docs/08-conventions.md) | Rules for code, Git, security, humans vs AI |
 | 09 | [Troubleshooting](docs/09-troubleshooting.md) | Something broke |
 | 10 | [Cheat sheet](docs/10-cheatsheet.md) | What to say to Claude, on one page |
+| 💬 | [Discord messages](docs/discord-messages.md) | Ready-to-pin workflow messages for our Discord channels |
 
 ## Quick start
 
 1. Once: [01 · One-time setup](docs/01-one-time-setup.md).
 2. In the `Roblox` folder, run `claude` and say: *"New game: MyGame. Create it from the template with a GitHub repo in TwiiinStudios."*
-3. Do the 4 human steps in [02](docs/02-new-game.md). Then *"Start a session"* and describe your game.
+3. Do the 4 human steps in [02](docs/02-new-game.md). Then open Studio + VS Code and describe your game to Claude.
 
 ## What's in this repo
 

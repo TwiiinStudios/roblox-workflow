@@ -9,9 +9,9 @@ You two coordinate in **Discord**.
 2. **Work on different things.** You do frogs, your teammate does the shop. Then your changes combine automatically.
 3. **Small changes, merged often.** Ship and merge when something works, don't sit on it for a week.
 4. **Discord is told automatically** when TEST changes (once the Discord webhook is set up, see [02](02-new-game.md)).
-5. **Always begin with "Start".** It pulls the other person's latest work and tells you what they're working on.
-6. **Say "Pause" when you stop mid-way.** Your unfinished work is saved online as a draft, so your teammate's "Start"
-   shows it and nothing is lost if your PC dies.
+5. **Claude tells you what the other person is working on** with your first message, and gets their latest work.
+6. **Unfinished work is saved online automatically** as a draft, so your teammate's Claude sees it and nothing is
+   lost if your PC dies. When you're done, just close VS Code.
 7. **Decisions go into `DESIGN.md`.** Claude writes them down, so both Claudes build the same game.
 
 ## What happens when you both work at the same time

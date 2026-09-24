@@ -49,52 +49,53 @@ Anything created in Studio outside the two `Captured` folders **is lost** on the
    ask the human to press **Ctrl+S** in Studio, then run `lune run tools/capture.luau` and commit the new `.rbxm`.
    Never hand-edit anything in `Captured/`. Asset IDs used by code go in `src/shared/Config.luau`.
 
-## 3. Routines the humans trigger by name
+## 3. The human workflow: BUILD → SHIP → PLAY
 
-The humans work **only in VS Code** (Claude Code panel) and coordinate with each other on **Discord**, not GitHub Issues.
-They may be beginners: explain in plain words, one step at a time, and never assume they know Git.
+The humans work **only in VS Code** (Claude Code panel) and coordinate on **Discord**, not GitHub Issues. They may be
+beginners: plain words, no Git jargon without explaining it. Claude has full control.
 
-The whole human workflow is **START → BUILD → SHIP → PLAY** (+ **PAUSE** when stopping before something is finished).
-Accept loose wording ("start", "let's go", "ship", "done, ship it", "pause", "stop for today"). Claude has full
-control: do every step yourself; only ask the human for the Rojo Connect click and for design decisions.
+**Save their prompts.** Every message they send should be about the game. Never make them type "start", "pause",
+"merge", "done" or "I clicked it". Do setup, saving and checking by yourself, and put anything they need to do into the
+same reply as your work. Accept loose wording ("ship", "ship it", "…and ship it", "put it on test").
 
-- **START** ("Start" / "Start a session"):
-  1. Update: `git fetch --prune` → if a branch of *this* human's from a previous PAUSE exists (their open draft PR),
-     offer to continue it; otherwise `git switch main` → `git pull`. Then `rokit install` → `wally install`.
-  2. **Teammate check**: `gh pr list --state open --json number,title,author,isDraft,headRefName,files` and summarise in
-     one or two plain sentences what the *other* person is working on and which parts of the game it touches.
-  3. **Studio**: `lune run tools/build.luau` → start `rojo serve` in the background (skip if already running) → open Studio
-     yourself with `Start-Process build/game.rbxl` (skip if Studio already shows it) → ask for the one click:
-     *"In Studio: Plugins tab → Rojo → Connect."* → confirm through the Studio MCP (`list_roblox_studios`, then
-     `execute_luau` that `ServerScriptService.Server` exists).
-  4. Say "Ready. What do you want to build?"
-  If the Studio MCP tools are missing: Studio must be open; the one-time switch in Studio is Assistant panel → ⋯ →
-  Manage MCP Servers → **Enable Studio as MCP server** ("Claude Code CLI" quick-connect stays off, "Visual Studio Code"
-  doesn't matter); then have them reconnect: type `/mcp` in the Claude panel → Roblox_Studio → Reconnect (or close and
-  reopen the panel). Until then, continue without in-Studio tests and say so.
-- **BUILD** (the human describes something): read `DESIGN.md` first. If the request overlaps with the teammate's open
-  work (from the START check), warn before building. Create `feature/<short-name>` from `main`, build it, verify it (section 4),
-  and report in plain words. Record new design decisions (numbers, rules, style) in `DESIGN.md` in the same branch.
-- **SHIP** ("Ship it"): one command, all the way to TEST:
-  `lune run tools/check.luau --fix` → commit → `git fetch` + `git merge origin/main` (resolve conflicts; ask the human
-  only about design choices; re-run the check) → push → create the PR (or mark the draft ready) with what/why/verification
-  → `gh pr checks --watch` → `gh pr merge --squash --delete-branch` → `git switch main; git pull` → watch the Deploy run →
-  report "On TEST in version N". The Deploy action posts to Discord automatically if `DISCORD_WEBHOOK_URL` is set;
-  otherwise give them a line to paste: `✅ On TEST: <what>`.
-- **SHARE** ("Share it"): like SHIP but stop after the PR is created (the teammate looks first). Give a Discord line with the link.
-- **PAUSE** ("Pause" / "stop for today"): commit everything as `WIP: …` → push → open a **draft** PR titled
-  `WIP: <what>` (or update it) → stop `rojo serve` → tell them it's saved online and the teammate can see it.
-- **"What changed?"**: `git fetch` → summarise new commits on `main` and the teammate's open PRs in plain words.
-- **RELEASE** ("Release to LIVE as vX.Y.Z", only when said explicitly): `gh workflow run Deploy -f target=live` → watch it →
+- **Automatic session setup**: on the **first request of every conversation**, before working on it (skip what's already
+  done; report it in one short line, not a checklist):
+  1. `git fetch --prune`. If this human has unfinished work (their own open draft PR `WIP: …`), continue it when the
+     request fits; if it clearly doesn't, ask in one line. Otherwise `git switch main` → `git pull`.
+     Then `rokit install` → `wally install`.
+  2. **Teammate check**: `gh pr list --state open --json number,title,author,isDraft,headRefName,files` plus new commits
+     on `main` since this human's last one. One or two sentences: what the other person is doing, what they recently
+     shipped. If the request overlaps their open work, say so before building.
+  3. **Studio**: if the Studio MCP shows the game open and `rojo serve` is running, skip. Otherwise
+     `lune run tools/build.luau` → start `rojo serve` in the background → `Start-Process build/game.rbxl` → in the same
+     reply tell them: *"When the game shows up in Studio: Plugins → Rojo → Connect."* **Don't wait for an answer.**
+     Keep working; section 4 checks the connection before testing.
+  4. Only for a pure question ("what did we decide about…?", "what changed?") skip steps 1 and 3 and just answer.
+  If the Studio MCP tools are missing: Studio must be open before the Claude panel starts (the start screen is enough);
+  the one-time switch is Studio → Assistant panel → ⋯ → Manage MCP Servers → **Enable Studio as MCP server**
+  ("Claude Code CLI" quick-connect stays off, "Visual Studio Code" doesn't matter); to reconnect: `/mcp` → Roblox_Studio →
+  Reconnect. Until then, build and run the checks without in-Studio tests, and say so once.
+- **BUILD** (they describe something): read `DESIGN.md` first. Work on `feature/<short-name>` from `main`, build it, verify it
+  (section 4), report in plain words, and record new decisions (numbers, rules, style) in `DESIGN.md`.
+  **Autosave**: after each working step, commit, push and keep a **draft PR** `WIP: <what>` open. That's the backup,
+  and it's how the teammate sees it. Nobody ever needs to say "pause".
+- **SHIP** ("ship it", or "…and ship it" in a request, which means ship as soon as it's verified): all the way to TEST:
+  `lune run tools/check.luau --fix` → commit → `git fetch` + `git merge origin/main` (resolve conflicts; ask only about
+  design choices; re-run the check) → push → mark the draft PR ready (or create it) with what/why/verification →
+  `gh pr checks --watch` → `gh pr merge --squash --delete-branch` → `git switch main; git pull` → watch the Deploy run →
+  "On TEST (version N)". Discord gets the Deploy bot's message if `DISCORD_WEBHOOK_URL` is set; otherwise add a line they
+  can paste: `✅ On TEST: <what>`.
+- **SHARE** ("share it"): like SHIP but stop after the PR is ready for review. Give a Discord line with the link.
+- **RELEASE** ("release to LIVE as vX.Y.Z", only when said explicitly): `gh workflow run Deploy -f target=live` → watch it →
   tag `vX.Y.Z` on `main` → push the tag → `gh release create vX.Y.Z --generate-notes`.
 
 ## 4. Verify your work, every time
 
 1. `lune run tools/check.luau --fix` (format, lint, world-file lint, unit tests, build) must end with "All good".
 2. **In-Studio test** (local sessions with the Roblox Studio MCP tools available):
-   - Have `rojo serve` running (start it in the background if it isn't), with Studio showing `build/game.rbxl`
-     (open it yourself with `Start-Process build/game.rbxl`) and the Rojo plugin connected. If it isn't connected,
-     ask the human once: *"In Studio, click Plugins → Rojo → Connect."*
+   - **Check Rojo is connected without asking**: read the `Source` of a script you just changed in Studio
+     (`execute_luau`) and compare it with the file. If it doesn't match, re-check every ~15 s for up to 2 minutes
+     (they may still be clicking Connect). Only then remind them once, in the same reply as your progress.
    - `start_stop_play` → `get_console_output` (no errors or warnings from our scripts) → `screen_capture`
      (does it look right?) → `character_navigation` / `user_keyboard_input` / `user_mouse_input` to actually use the
      feature → stop play. Use `execute_luau` to inspect state (e.g. a player's coins) when needed.
@@ -105,7 +106,7 @@ control: do every step yourself; only ask the human for the Rojo Connect click a
 ## 5. Git and delivery
 
 - Branch from up-to-date `main`: `feature/…`, `fix/…`, `chore/…`. Small, focused commits with clear messages.
-- Commit and push as part of SHIP, SHARE and PAUSE (saying those words is the human's go-ahead). Otherwise keep work local.
+- Commit and push to the feature branch freely (autosave to a draft PR). Nothing reaches `main`/TEST except through SHIP.
 - PR description: what changed, how it was verified (check + which playtest steps), anything the human must do.
 - Merge with `gh pr merge --squash --delete-branch` only after CI is green, as part of SHIP (or when a human says "merge it").
 - Merging to `main` auto-publishes to the TEST experience. **Never publish to LIVE** (`tools/publish.luau live`,
