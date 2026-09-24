@@ -76,6 +76,8 @@ or *"There's a red error in Studio's Output window"*. Claude investigates.
 **I closed Studio, or it says Rojo disconnected.** Say *"Start a session"* again, or *"Reconnect Studio."*
 
 **Claude says it can't see Studio.** Make sure Studio is open, then close and reopen the Claude Code panel.
+The very first time, Studio also needs its switch turned on: Studio → **Assistant** panel → **⋯** → **Manage MCP Servers**
+→ **Enable Studio as MCP server**.
 
 ## Words you might hear
 
