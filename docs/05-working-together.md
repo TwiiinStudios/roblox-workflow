@@ -16,13 +16,13 @@ You two coordinate in **Discord**.
 
 ## What happens when you both work at the same time
 
-**You changed different things → nothing to do ✅**
+**You changed different things → nothing to do**
 Your fly shop and their egg hatching live in different files, and both merges just work.
 
-**You both changed the same file, different parts → combined automatically ✅**
+**You both changed the same file, different parts → combined automatically**
 You add a fly price to the settings file; they add an egg price. Both stay.
 
-**You both changed the exact same thing → Claude asks you ⚠️**
+**You both changed the exact same thing → Claude asks you**
 Example: you set flies to 10 coins, your teammate set them to 20. When you say "Ship it", Claude sees the
 clash (*merge conflict*), keeps everything it can combine, and asks you about the rest:
 > "Your teammate set FLY_PRICE to 20, you set it to 10. Which one?"

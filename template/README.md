@@ -4,7 +4,7 @@ A Roblox game **built by AI** with the roblox-workflow kit. The humans describe;
 and opens pull requests; GitHub checks everything and publishes to the TEST game automatically.
 Long-form handbook: `docs/` in the `roblox-workflow` repo. AI rules: [`CLAUDE.md`](CLAUDE.md).
 
-## 🐸 The workflow: BUILD → SHIP → PLAY
+## The workflow: BUILD → SHIP → PLAY
 
 | | You |
 |---|---|
