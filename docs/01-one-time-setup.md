@@ -47,12 +47,22 @@ This lets Claude see the open game, run code in Studio, start play-tests, move a
 read the Output window and take screenshots.
 
 1. Open Roblox Studio (latest version) and open any place.
-2. Open the **Assistant** panel → **⋯** menu → **Manage MCP Servers**.
-3. Turn on **Enable Studio as MCP server**. ⚠️ Required: without it Claude only gets "Request timed out".
-4. Claude Code side: `setup-pc.ps1` registers it for you. Otherwise, under **Quick connect**, turn on **Claude Code**.
-5. Close and reopen the Claude panel in VS Code. It connects to Studio when it starts, so open Studio first.
+2. Open the **Assistant** panel → **⋯** menu (top right of the panel) → **Manage MCP Servers**
+   (the window is called *Assistant Settings*).
+3. Set the switches like this:
 
-To add the Claude Code side by hand instead:
+   | Switch | Set to | Why |
+   |---|---|---|
+   | **Enable Studio as MCP server** | ✅ **On (required)** | Lets AI tools talk to Studio. Off = Claude only gets "Request timed out". |
+   | Quick connect → **Visual Studio Code** | Doesn't matter | Connects VS Code's *own* AI (GitHub Copilot), not Claude. Harmless either way. |
+   | Quick connect → **Claude Code CLI** | ❌ **Leave off** | `setup-pc.ps1` already connects Claude (also for the VS Code panel). Turning it on too can register Studio twice. |
+
+   When it works, the line under the main switch changes from *"No clients connected"* to showing Claude as connected
+   while a Claude session is running.
+4. **Open Studio first, then open (or reopen) the Claude panel in VS Code.** Claude connects to Studio when it starts.
+5. Check (optional): `claude mcp list` shows `Roblox_Studio: … ✔ Connected` while Studio is open.
+
+To add the Claude Code side by hand (only if you didn't run `setup-pc.ps1`):
 ```powershell
 claude mcp add --scope user Roblox_Studio -- cmd.exe /c '%LOCALAPPDATA%\Roblox\mcp.bat'
 ```

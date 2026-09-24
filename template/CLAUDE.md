@@ -59,7 +59,8 @@ They may be beginners: explain in plain words, one step at a time, and never ass
   *"In Studio, click the Plugins tab → Rojo → Connect."* → confirm through the Studio MCP (`list_roblox_studios`, then a
   quick `execute_luau` that `ServerScriptService.Server` exists) → say "Ready, what do you want to build?".
   If the Studio MCP tools are missing: (1) Studio must be open, (2) one-time switch in Studio: Assistant panel → ⋯ →
-  Manage MCP Servers → **Enable Studio as MCP server**, (3) then close and reopen the Claude Code panel (MCP servers
+  Manage MCP Servers → **Enable Studio as MCP server** (the "Claude Code CLI" quick-connect toggle stays off because it's
+  already registered; "Visual Studio Code" is for Copilot and doesn't matter), (3) then close and reopen the Claude Code panel (MCP servers
   connect when Claude starts). Until then, continue without in-Studio tests and say so.
 - **"Ship it"**: check passes → commit → push → `gh pr create` with what/why/verification → report the PR link and give
   a one-line message they can paste in Discord, e.g. `🐸 PR ready: fly shop next to spawn - <link>`.
