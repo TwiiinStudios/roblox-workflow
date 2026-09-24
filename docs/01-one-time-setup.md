@@ -82,11 +82,20 @@ Claude Code reads `CLAUDE.md` files in parent folders, so every game under `Robl
 
 ### B1. Roblox Group
 
-1. One person creates a group (communities → Create) and invites the other.
-2. **Configure → Roles**: give both of you a role that can **edit group experiences**.
+Roblox now calls groups **Communities**. Why one: the games belong to the community, not a personal account; roles give
+the teammate exactly the rights they need; Robux lands in shared group funds and can be paid out (one-off or recurring %);
+assets and the publishing API keys live under the community.
 
-The games belong to the group, so nobody loses access and revenue can be split.
-(No group yet? One person owns the games and adds the other as a Collaborator in Creator Hub.)
+1. Have **100 Robux** (the cost of creating one).
+2. roblox.com → **Communities** → **Create Community** → name (e.g. `TwiiinStudios`), description, square emblem
+   (moderated) → pay → created.
+3. The teammate opens the community page → **Join Community**.
+4. Community page → **⋯ → Configure Community → Roles → Create Role**, e.g. `Developer`. Permissions:
+   - ✅ edit/manage the community's experiences, ✅ view analytics
+   - ❌ spend group funds, ❌ manage roles, ❌ kick/ban members (owner only)
+5. **Members** → assign the teammate to `Developer`.
+
+(No community? One person owns the games and adds the other as a Collaborator in Creator Hub. You can move later, but it's painful.)
 
 ### B2. GitHub Organization
 
