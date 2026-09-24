@@ -1,39 +1,31 @@
-# 04 · Daily workflow
+# 04 · Daily workflow: START → BUILD → SHIP → PLAY
 
-New to all of this? Read [00 · Start here](00-start-here.md) first. This page is the same loop with a bit more detail.
-
-Everything happens in **VS Code** (Claude Code panel). Coordination happens in **Discord**. Studio only runs in the
-background so Claude can test in it.
-
-## The loop
+New to all of this? Read [00 · Start here](00-start-here.md) first.
 
 ```
- Discord: "I'm doing the fly shop"
-      │
- VS Code → Claude: "Start a session"
-      │   Claude: pulls latest main → builds → opens Studio → starts Rojo
-      │   You: Studio → Plugins → Rojo → Connect   (the only click)
-      ▼
- You: "Add a fly shop next to spawn… Test it in Studio."
-      │   Claude: new branch → writes code/world/UI → checks → play-tests in Studio → fixes → reports
-      │   You (optional): F5 in Studio, give feedback, repeat
-      ▼
- You: "Ship it"   → Claude: commit → push → pull request → checks run on GitHub
- You: "Merge it"  → Claude: merge → Deploy → TEST updated (~1 min) → gives you a Discord line
-      ▼
- Discord: "✅ On TEST: fly shop next to spawn"  → you both play TEST in the Roblox app
+ 🐸  START  →  BUILD  →  SHIP  →  PLAY          (+ PAUSE when you stop before it's finished)
 ```
 
-## What to say, and what Claude does
+| Step | You | Claude |
+|---|---|---|
+| **0. Discord** | Post what you're working on: *"I'm doing the fly shop"* | |
+| **1. START** | Open **Roblox Studio** (start screen is enough) → VS Code in the game folder → Claude panel → **"Start"** | Gets the newest version of the game, tells you what your teammate is working on, builds the game, starts Rojo, opens the game in Studio |
+| | In Studio: **Plugins → Rojo → Connect** | Checks it can see and control Studio |
+| **2. BUILD** | Say what you want (what the player sees/does, numbers, where) | Builds it on its own branch, tests it in Studio (plays, walks, clicks, screenshots), fixes, explains. Writes decisions into `DESIGN.md` |
+| | Optional: press **F5** in Studio to play it yourself, give feedback | Adjusts |
+| **3. SHIP** | **"Ship it"** | Runs all checks, pulls in your teammate's latest changes, saves to GitHub, merges, waits for the TEST game to update. Discord gets a message automatically |
+| **4. PLAY** | Play the TEST game together in the Roblox app | |
 
-| You say | Claude does |
-|---|---|
-| **"Start a session"** | `git pull`, installs tools and packages, builds `build/game.rbxl`, opens it in Studio, starts `rojo serve`, asks you to click Connect, checks the Studio connection |
-| **"Add / change … Test it in Studio."** | Makes a branch (e.g. `feature/fly-shop`), builds it, runs all checks, play-tests with the Studio MCP, fixes, and explains what it verified |
-| **"Ship it"** | Commits, pushes, opens a pull request with a description, reports the link + a Discord line |
-| **"Merge it"** | Waits for the checks, merges, waits for the TEST deploy, reports + a Discord line |
-| **"What changed?"** | Pulls and summarises what your teammate merged |
-| **"Release to LIVE as v0.1.0"** | Only when you both agreed: publishes to LIVE, tags the version ([07](07-publishing.md)) |
+## The other words
+
+| Say | When | Claude does |
+|---|---|---|
+| **"Pause"** | You stop before something is finished | Saves your unfinished work online as a draft (backed up, your teammate can see it), stops Rojo. Next "Start" offers to continue it |
+| **"Share it"** | You want your teammate to look before it goes on TEST | Like Ship it, but stops at the pull request and gives you a link for Discord |
+| **"What changed?"** | Your teammate shipped something | Summarises what's new in plain words |
+| **"Release to LIVE as v1.0.0"** | You both agreed in Discord | Publishes to the real game, labels the version ([07](07-publishing.md)) |
+
+Loose wording is fine: "start", "let's go", "ship", "done, ship it", "stop for today".
 
 ## Tips for good results
 
@@ -43,22 +35,21 @@ background so Claude can test in it.
 | "add a shop" | "Add a shop stand at spawn: flies for 10 coins, golden flies for 100 coins (10x growth)." |
 | "fix the bug" | "When two players feed the same frog, both get charged. Only the owner should be able to feed it." |
 
-- Say **what the player sees and does**, **numbers**, **where**, and end with **"Test it in Studio."**
-- One thing at a time. Ship small changes often, rather than one giant change after a week.
-- Claude asks you design questions ("should frogs die if not fed?"). Answer them. That's your job as the game designer.
+- Say **what the player sees and does**, **numbers**, **where**. Claude tests in Studio by itself.
+- One thing at a time; ship small things often.
+- Claude asks design questions ("should frogs die if not fed?"). Answer them: you're the game designers.
+  The answer goes into `DESIGN.md`, so your teammate's Claude builds with the same rules.
 
-## What stays human, on purpose
+## What stays human
 
 | You | Why |
 |---|---|
 | Deciding what to build and whether it's fun | That's the game design |
-| The Rojo → Connect click | Studio doesn't let other programs press its buttons |
-| "Merge it" | Quality gate: nothing reaches TEST without a human saying so |
-| Releasing to LIVE | Real players, real data |
+| Rojo → Connect in Studio | Studio doesn't let programs press plugin buttons |
+| Saying "Ship it" / "Release" | Nothing reaches TEST or LIVE without a human saying so |
 | Roblox/GitHub settings, API keys, Robux | Account security |
 
-## Optional: from your phone
+## If Claude can't see Studio
 
-If the `CLAUDE_CODE_OAUTH_TOKEN` secret is set on the repo, you can also comment `@claude …` on a pull request on GitHub,
-e.g. *"@claude make the shop button bigger"*, and Claude changes it there. Handy when you're away from your PC;
-not needed day to day.
+Studio must be open. In the Claude panel type **`/mcp`** → **Roblox_Studio** → **Reconnect** (or close and reopen the panel).
+First time on a PC: Studio → Assistant → ⋯ → Manage MCP Servers → **Enable Studio as MCP server** ([01 · A4](01-one-time-setup.md)).

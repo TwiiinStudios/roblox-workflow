@@ -68,9 +68,34 @@ claude mcp add --scope user Roblox_Studio -- cmd.exe /c '%LOCALAPPDATA%\Roblox\m
 ```
 Studio must be **open** whenever Claude needs it. Official docs: https://create.roblox.com/docs/studio/mcp
 
+**Opened Studio after Claude, or restarted Studio?** No need to restart Claude: in the Claude panel type **`/mcp`** →
+**Roblox_Studio** → **Reconnect**. (If the panel doesn't offer `/mcp`, close and reopen the panel.)
+
 ### A5. Rojo plugin in Studio
 
-Inside any game folder (after `rokit install`): `rojo plugin install`, then restart Studio.
+Inside any game folder (after `rokit install`): `rojo plugin install`, then restart Studio. (`setup-pc.ps1` does this.)
+
+Optional: Rojo plugin → **Settings** → **Open Scripts Externally** → on. Double-clicking a script in Studio then opens
+it in VS Code. Nice for looking around, not needed for the AI workflow.
+
+### VS Code extensions
+
+`setup-pc.ps1` installs these (each game repo also recommends them when you open it):
+
+| Extension | Why |
+|---|---|
+| **Claude Code** (Anthropic) | The Claude panel you work in |
+| **Rojo** | Rojo status in VS Code |
+| **Luau Language Server** | Understands Roblox code and underlines mistakes live. Claude sees these errors too and fixes them before play-testing |
+| **StyLua** | Formats code on save |
+| **selene** | Catches common mistakes |
+
+### Claude's permissions (full control)
+
+Every game repo contains `.claude/settings.json`, which lets Claude use all its tools (terminal, files, web, Roblox Studio)
+**without asking "Allow?" each time**. The one exception: it can't read the `.env` file with the Roblox key.
+Because the file is in the repo, both of you get it automatically. New games get it from `template/.claude/settings.json`.
+Rules that still hold because they're in `CLAUDE.md`: nothing goes to LIVE unless you say so, keys are never printed.
 
 ### A6. Get the workflow kit and teach Claude about it
 

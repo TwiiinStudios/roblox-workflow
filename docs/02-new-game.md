@@ -10,7 +10,8 @@ Claude does everything it can; the steps marked 🧑 are Roblox/GitHub account a
 | 3 | Experience settings | 🧑 | 5 min |
 | 4 | Copy the IDs → give them to Claude | 🧑 → Claude | 2 min |
 | 5 | Create the publishing API key and store it | 🧑 | 4 min |
-| 6 | Turn on Claude for GitHub | 🧑 | 1 min |
+| 6 | Turn on Claude for GitHub (optional) | 🧑 | 1 min |
+| 6b | Discord messages when TEST/LIVE update (optional, recommended) | 🧑 | 2 min |
 | 7 | First deploy + check | Claude, then 🧑 plays | 2 min |
 
 ---
@@ -95,6 +96,19 @@ Keep the key somewhere safe (e.g. a password manager) or just generate a new one
 In Claude Code, inside the game folder: `/install-github-app` → choose **TwiiinStudios** → **All repositories** →
 it stores `CLAUDE_CODE_OAUTH_TOKEN` in this repo. Needed **per repo** on the free GitHub plan (org-level secrets don't
 reach private repos). Optional: enables the automatic PR review and `@claude` in PR comments. Everything else works without it.
+
+## 6b. 🧑 Discord messages (optional, recommended)
+
+The Deploy action posts to your Discord channel whenever TEST or LIVE is updated (and when publishing fails):
+> 🧪 **GrowAFrog TEST updated** (version 12): Add fly shop next to spawn - by rA9-001
+
+1. Discord: channel settings (⚙️ next to the channel) → **Integrations** → **Webhooks** → **New Webhook** → name it
+   after the game → **Copy Webhook URL**. One webhook can be reused for all games.
+2. Store it (don't paste it into the chat; anyone with the link can post in your channel). In the Claude prompt:
+   ```
+   ! gh secret set DISCORD_WEBHOOK_URL --repo TwiiinStudios/GrowAFrog
+   ```
+   Paste the URL, Enter. Without it, the step is simply skipped.
 
 ## 7. First deploy and check
 

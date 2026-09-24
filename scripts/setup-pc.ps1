@@ -3,7 +3,8 @@
     Sets up (or checks) a Windows PC for the roblox-workflow. Safe to run again at any time.
 
 .DESCRIPTION
-    Installs what's missing (winget): Git, GitHub CLI, Rokit, Roblox Studio VS Code + the Claude Code extension.
+    Installs what's missing (winget): Git, GitHub CLI, Rokit, Roblox Studio, VS Code, plus the VS Code extensions
+    Claude Code, Rojo, Luau Language Server, StyLua and selene.
     Trusts the Rokit tools the template uses, installs the Rojo Studio plugin, registers the Roblox Studio
     MCP server with Claude Code, creates Roblox\CLAUDE.md, and (with -GitHubOwner) clones every game repo.
     Ends with a list of what's done and what a human still has to do.
@@ -19,7 +20,7 @@ param(
     # Set the git identity (only if not set yet).
     [string]$GitName,
     [string]$GitEmail,
-    # Skip installing VS Code + the Claude Code extension.
+    # Skip installing VS Code + its extensions.
     [switch]$NoVSCode
 )
 
@@ -74,12 +75,20 @@ if (-not (Has 'winget')) {
 Update-SessionPath
 
 if (-not $NoVSCode -and (Has 'code')) {
-    $extensions = code --list-extensions 2>$null
-    if ($extensions -contains 'anthropic.claude-code') { $done.Add("VS Code Claude Code extension installed") }
-    else {
-        code --install-extension anthropic.claude-code 2>&1 | Out-Null
-        if ($LASTEXITCODE -eq 0) { $done.Add("VS Code Claude Code extension installed now") }
-        else { $todo.Add("In VS Code: Extensions > search 'Claude Code' (Anthropic) > Install.") }
+    Step "VS Code extensions"
+    $wanted = [ordered]@{
+        'anthropic.claude-code'     = 'Claude Code'
+        'evaera.vscode-rojo'        = 'Rojo'
+        'johnnymorganz.luau-lsp'    = 'Luau Language Server'
+        'johnnymorganz.stylua'      = 'StyLua'
+        'kampfkarren.selene-vscode' = 'selene'
+    }
+    $installed = @(code --list-extensions 2>$null | ForEach-Object { $_.ToLower() })
+    foreach ($id in $wanted.Keys) {
+        if ($installed -contains $id) { $done.Add("VS Code extension: $($wanted[$id])"); continue }
+        code --install-extension $id 2>&1 | Out-Null
+        if ($LASTEXITCODE -eq 0) { $done.Add("VS Code extension installed now: $($wanted[$id])") }
+        else { $todo.Add("In VS Code: Extensions > search '$($wanted[$id])' > Install.") }
     }
 }
 
