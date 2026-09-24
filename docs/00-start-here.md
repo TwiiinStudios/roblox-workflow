@@ -77,7 +77,9 @@ or *"There's a red error in Studio's Output window"*. Claude investigates.
 
 **Claude says it can't see Studio.** Make sure Studio is open, then close and reopen the Claude Code panel.
 The very first time, Studio also needs its switch turned on: Studio → **Assistant** panel → **⋯** → **Manage MCP Servers**
-→ **Enable Studio as MCP server**.
+→ **Enable Studio as MCP server** (on). The other toggles in that window: "Visual Studio Code" doesn't matter
+(it's for a different AI), "Claude Code CLI" leave off (Claude is already connected by the setup).
+Rule of thumb: **open Studio first, then Claude.**
 
 ## Words you might hear
 
