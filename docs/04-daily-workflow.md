@@ -3,7 +3,7 @@
 New to all of this? Read [00 · Start here](00-start-here.md) first.
 
 ```
- 🐸  BUILD  →  SHIP  →  PLAY
+ BUILD  →  SHIP  →  PLAY
 ```
 
 **Every message you send Claude is about the game.** No "start", "pause" or "merge" messages: Claude does
@@ -43,7 +43,7 @@ Keep "…and ship it" for small, clear changes. For bigger or visual things, loo
 
 ## Tips for good results
 
-| ❌ Vague | ✅ Clear |
+| Vague | Clear |
 |---|---|
 | "make it better" | "Frogs feel slow. Make them walk 30% faster and hop when they move." |
 | "add a shop" | "Add a shop stand at spawn: flies for 10 coins, golden flies for 100 coins (10x growth)." |

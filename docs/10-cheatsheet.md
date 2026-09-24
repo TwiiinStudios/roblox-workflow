@@ -1,7 +1,7 @@
 # 10 · Cheat sheet
 
 ```
- 🐸  BUILD  →  SHIP  →  PLAY
+ BUILD  →  SHIP  →  PLAY
 ```
 
 | | You |

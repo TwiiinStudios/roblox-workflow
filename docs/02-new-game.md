@@ -49,7 +49,7 @@ In Studio: **File → Open from Roblox** → the experience → **Home → Game 
 
 | Setting | TEST | LIVE | Why |
 |---|---|---|---|
-| Security → **Enable Studio Access to API Services** | ✅ On | ✅ On | DataStores (saving) work in Studio tests |
+| Security → **Enable Studio Access to API Services** | On | On | DataStores (saving) work in Studio tests |
 | Permissions → **Playability** | **Private** | **Private** until launch | Nobody stumbles on unfinished games |
 | **Avatar** (R15/R6, scaling, animations), **max players/server size** | Same as LIVE | Your choice | These aren't part of the game files, so Git can't keep them in sync. Keep both identical by hand. |
 | Name, icon, thumbnails, description, genre | Anything | Make them nice at launch | Only matters for LIVE |

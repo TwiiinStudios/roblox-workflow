@@ -26,7 +26,7 @@ Claude installs everything else (Git, GitHub CLI, Rokit + tools, Roblox Studio, 
 connection), downloads all our games, and tells you the few clicks only you can do: "Yes" on Windows install prompts,
 logging in to GitHub in your browser, logging in to Roblox Studio. Details: [01 · One-time setup](docs/01-one-time-setup.md).
 
-## 🐸 The workflow: BUILD → SHIP → PLAY
+## The workflow: BUILD → SHIP → PLAY
 
 | | You |
 |---|---|
@@ -58,7 +58,7 @@ More: [04 · Daily workflow](docs/04-daily-workflow.md) · one page: [10 · Chea
    play-tests via Studio MCP (play, walk, click, screenshots, console), fixes what it finds
         │ "ship it"
         ▼
-                    Pull Request ──► CI checks ✔ + Claude Review 💬
+                    Pull Request ──► CI checks ✔ + Claude Review
                          │ merge (you, or Claude when you say so)
                          ▼
              Deploy action ──► TEST experience (automatic) ──► you play it
@@ -87,7 +87,7 @@ More: [04 · Daily workflow](docs/04-daily-workflow.md) · one page: [10 · Chea
 | 08 | [Conventions](docs/08-conventions.md) | Rules for code, Git, security, humans vs AI |
 | 09 | [Troubleshooting](docs/09-troubleshooting.md) | Something broke |
 | 10 | [Cheat sheet](docs/10-cheatsheet.md) | What to say to Claude, on one page |
-| 💬 | [Discord messages](docs/discord-messages.md) | Ready-to-pin workflow messages for our Discord channels |
+| — | [Discord messages](docs/discord-messages.md) | Ready-to-pin workflow messages for our Discord channels |
 
 ## Quick start
 

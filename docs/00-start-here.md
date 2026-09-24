@@ -7,14 +7,14 @@ You talk to Claude in VS Code, and Claude does the technical work.
 
 | Piece | What it is | Do I touch it? |
 |---|---|---|
-| **VS Code** | The program where you talk to Claude (the Claude Code panel on the side) | ✅ This is where you work |
-| **Claude** | Your builder. It writes the game, tests it, fixes it and saves it | ✅ You tell it what you want |
+| **VS Code** | The program where you talk to Claude (the Claude Code panel on the side) | Yes, this is where you work |
+| **Claude** | Your builder. It writes the game, tests it, fixes it and saves it | Yes, you tell it what you want |
 | **Roblox Studio** | Where the game runs so it can be tested. Claude plays it for you | Only one click per session (below) |
 | **Rojo** | The "cable" between VS Code and Studio. Every change Claude makes appears in Studio instantly | Only that same one click |
-| **GitHub** | The shared online save of the game, with full history. Both of you work on the same game through it | ❌ Claude handles it |
-| **TEST game** | A private copy of the game on Roblox where you two play the newest version | ✅ Play it with the normal Roblox app |
+| **GitHub** | The shared online save of the game, with full history. Both of you work on the same game through it | No, Claude handles it |
+| **TEST game** | A private copy of the game on Roblox where you two play the newest version | Yes, play it in the normal Roblox app |
 | **LIVE game** | The real public game | Only when you both decide to release |
-| **Discord** | Where you two talk: who's doing what, "I merged something" | ✅ As usual |
+| **Discord** | Where you two talk: who's doing what, "I merged something" | Yes, as usual |
 
 ## The whole workflow: BUILD → SHIP → PLAY
 

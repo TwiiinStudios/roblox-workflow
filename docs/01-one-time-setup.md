@@ -53,9 +53,9 @@ read the Output window and take screenshots.
 
    | Switch | Set to | Why |
    |---|---|---|
-   | **Enable Studio as MCP server** | ✅ **On (required)** | Lets AI tools talk to Studio. Off = Claude only gets "Request timed out". |
+   | **Enable Studio as MCP server** | **On (required)** | Lets AI tools talk to Studio. Off = Claude only gets "Request timed out". |
    | Quick connect → **Visual Studio Code** | Doesn't matter | Connects VS Code's *own* AI (GitHub Copilot), not Claude. Harmless either way. |
-   | Quick connect → **Claude Code CLI** | ❌ **Leave off** | `setup-pc.ps1` already connects Claude (also for the VS Code panel). Turning it on too can register Studio twice. |
+   | Quick connect → **Claude Code CLI** | **Off** | `setup-pc.ps1` already connects Claude (also for the VS Code panel). Turning it on too can register Studio twice. |
 
    When it works, the line under the main switch changes from *"No clients connected"* to showing Claude as connected
    while a Claude session is running.
@@ -127,8 +127,8 @@ assets and the publishing API keys live under the community.
    (moderated) → pay → created.
 3. The teammate opens the community page → **Join Community**.
 4. Community page → **⋯ → Configure Community → Roles → Create Role**, e.g. `Developer`. Permissions:
-   - ✅ edit/manage the community's experiences, ✅ view analytics
-   - ❌ spend group funds, ❌ manage roles, ❌ kick/ban members (owner only)
+   - Allowed: edit/manage the community's experiences, view analytics
+   - Not allowed (owner only): spend group funds, manage roles, kick/ban members
 5. **Members** → assign the teammate to `Developer`.
 
 (No community? One person owns the games and adds the other as a Collaborator in Creator Hub. You can move later, but it's painful.)
@@ -171,4 +171,4 @@ gh repo create TwiiinStudios/roblox-workflow --private --source . --remote origi
 ```
 The other person does step A6.
 
-✅ Done forever. Next: [02 · Starting a new game](02-new-game.md).
+Done. Next: [02 · Starting a new game](02-new-game.md).
