@@ -16,48 +16,50 @@ You talk to Claude in VS Code, and Claude does the technical work.
 | **LIVE game** | The real public game | Only when you both decide to release |
 | **Discord** | Where you two talk: who's doing what, "I merged something" | ✅ As usual |
 
-## A normal session (5 steps)
+## The whole workflow in four words: START → BUILD → SHIP → PLAY
 
-**1. Open VS Code in the game folder**
-VS Code → **File → Open Folder…** → `Documents\Projects\Roblox\GrowAFrog`. Open the **Claude Code** panel
-(the Claude icon on the left side, or at the top right of the editor).
+**0. Tell your teammate in Discord what you're doing.** *"I'm doing the fly shop."*
 
-**2. Say: "Start a session"**
-Claude gets your teammate's latest changes, builds the game, **opens Roblox Studio for you** and starts Rojo.
-It then asks you to do the one click:
+**1. START**
+- Open **Roblox Studio**. The start screen is enough; don't open a game.
+- Open **VS Code** → **File → Open Folder…** → `DocumentsProjectsRobloxGrowAFrog` → open the **Claude Code** panel
+  (the Claude icon on the side, or at the top right of the editor).
+- Say **"Start"**. Claude gets the newest version of the game, tells you what your teammate is working on, and
+  **opens the game in Studio for you**. Then it asks for the one click:
+  > In Studio: **Plugins** tab (top) → **Rojo** → **Connect**
+- Leave Studio open in the background. You can close the extra start-screen window.
 
-> In Studio: **Plugins** tab (top) → **Rojo** → **Connect**
-
-Leave Studio open in the background. You can minimise it.
-
-**3. Say what you want**
-Describe it like you'd explain it to a friend: what the player sees and does, numbers, and where.
-
+**2. BUILD**
+Describe what you want like you'd explain it to a friend: what the player sees and does, numbers, and where.
 > "Add a shop stand next to the spawn where players buy flies for 10 coins. Clicking your frog feeds it a fly and
-> it grows by 5. Test it in Studio."
+> it grows by 5."
 
 Claude builds it, then **tests it in Studio by itself**: it presses Play, walks the character, clicks buttons, reads
 errors and takes screenshots. It fixes what's broken and tells you what it did.
 Want to see it yourself? Click into Studio and press **F5** (Play), then **Shift+F5** to stop.
 Don't like something? Just say it: *"Make the shop bigger and move it closer to the spawn."*
 
-**4. Say: "Ship it", then "Merge it"**
-- **Ship it** = Claude saves the change to GitHub as a proposal (called a *pull request*) and checks it automatically.
-- **Merge it** = the change becomes part of the real game, and about 1 minute later it's on the **TEST game**.
-Claude gives you a short message to paste in Discord, like `✅ On TEST: fly shop next to spawn`.
+**3. SHIP**
+Say **"Ship it"**. Claude checks everything, pulls in your teammate's latest changes, saves it to GitHub and adds it to
+the game. About 2 minutes later it's on the **TEST game**, and your Discord channel gets a message automatically.
 
-**5. Play the TEST game together**
+**4. PLAY**
 Open the TEST game link (in the game's README) in your browser → **Play**. It opens in the normal Roblox app.
-This is where you play together, try it on your phone, and check that saving works.
+Play together, try it on your phone, check that saving works.
+
+**Stopping before it's finished? Say "Pause".** Your unfinished work is saved online (your teammate can see it)
+and next time "Start" offers to continue it.
 
 ## Working together without getting in each other's way
 
-- **Say in Discord what you're working on**: *"I'm doing the fly shop"* / *"I'm doing the egg hatching."*
-  Working on different things means your changes combine automatically.
-- **"Start a session" always gets the other person's newest changes first**, so you're always up to date.
-- **When you merge something, paste Claude's Discord message** so the other person knows.
+- **Say in Discord what you're working on.** Working on different things means your changes combine automatically.
+- **"Start" tells you what your teammate is working on**, and Claude warns you if you're about to build something
+  that overlaps with it.
+- **Discord gets a message automatically** whenever the TEST game is updated.
+- **Decisions are written down in `DESIGN.md`** (prices, rules, style), so both of your Claudes build the same game.
+  Ask *"What did we decide about …?"* anytime.
 - If you both changed the same thing, Claude notices and asks you what to keep. Nothing gets lost.
-- Unsure what your teammate changed? Ask Claude: *"What changed?"*
+- Unsure what your teammate changed? Ask *"What changed?"*
 
 ## Common questions
 

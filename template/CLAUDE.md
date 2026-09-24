@@ -21,6 +21,7 @@ Nothing is built by hand in Studio. The game is **only** what these files say:
 | Models/props (text) | `assets/*.model.json` | `ReplicatedStorage.Assets` |
 | Things made in Studio | `world/Map/Captured/`, `assets/Captured/` (`.rbxm`, written only by `tools/capture.luau`) | `Workspace.Map.Captured`, `ReplicatedStorage.Assets.Captured` |
 | Unit tests | `tests/*.spec.luau` | nothing (run by Lune) |
+| Game design decisions | `DESIGN.md` (read before building; update when the humans decide something) | nothing |
 
 Anything created in Studio outside the two `Captured` folders **is lost** on the next build.
 
@@ -53,21 +54,38 @@ Anything created in Studio outside the two `Captured` folders **is lost** on the
 The humans work **only in VS Code** (Claude Code panel) and coordinate with each other on **Discord**, not GitHub Issues.
 They may be beginners: explain in plain words, one step at a time, and never assume they know Git.
 
-- **"Start a session"**: `git switch main` → `git pull` → `rokit install` → `wally install` →
-  `lune run tools/build.luau` → start `rojo serve` in the background → open Studio with the game yourself
-  (`Start-Process build/game.rbxl` in PowerShell; skip if Studio already shows it) → tell the human the one thing to do:
-  *"In Studio, click the Plugins tab → Rojo → Connect."* → confirm through the Studio MCP (`list_roblox_studios`, then a
-  quick `execute_luau` that `ServerScriptService.Server` exists) → say "Ready, what do you want to build?".
-  If the Studio MCP tools are missing: (1) Studio must be open, (2) one-time switch in Studio: Assistant panel → ⋯ →
-  Manage MCP Servers → **Enable Studio as MCP server** (the "Claude Code CLI" quick-connect toggle stays off because it's
-  already registered; "Visual Studio Code" is for Copilot and doesn't matter), (3) then close and reopen the Claude Code panel (MCP servers
-  connect when Claude starts). Until then, continue without in-Studio tests and say so.
-- **"Ship it"**: check passes → commit → push → `gh pr create` with what/why/verification → report the PR link and give
-  a one-line message they can paste in Discord, e.g. `🐸 PR ready: fly shop next to spawn - <link>`.
-- **"Merge it"**: wait for CI (`gh pr checks --watch`) → `gh pr merge --squash --delete-branch` → `git switch main; git pull`
-  → wait for the Deploy run → give a Discord line: `✅ On TEST: fly shop next to spawn (pull main before your next change)`.
-- **"What changed?"** (e.g. after the other person merged something): `git pull` and summarise the new commits on `main` in plain words.
-- **"Release to LIVE as vX.Y.Z"** (only when said explicitly): `gh workflow run Deploy -f target=live` → watch it →
+The whole human workflow is **START → BUILD → SHIP → PLAY** (+ **PAUSE** when stopping before something is finished).
+Accept loose wording ("start", "let's go", "ship", "done, ship it", "pause", "stop for today"). Claude has full
+control: do every step yourself; only ask the human for the Rojo Connect click and for design decisions.
+
+- **START** ("Start" / "Start a session"):
+  1. Update: `git fetch --prune` → if a branch of *this* human's from a previous PAUSE exists (their open draft PR),
+     offer to continue it; otherwise `git switch main` → `git pull`. Then `rokit install` → `wally install`.
+  2. **Teammate check**: `gh pr list --state open --json number,title,author,isDraft,headRefName,files` and summarise in
+     one or two plain sentences what the *other* person is working on and which parts of the game it touches.
+  3. **Studio**: `lune run tools/build.luau` → start `rojo serve` in the background (skip if already running) → open Studio
+     yourself with `Start-Process build/game.rbxl` (skip if Studio already shows it) → ask for the one click:
+     *"In Studio: Plugins tab → Rojo → Connect."* → confirm through the Studio MCP (`list_roblox_studios`, then
+     `execute_luau` that `ServerScriptService.Server` exists).
+  4. Say "Ready. What do you want to build?"
+  If the Studio MCP tools are missing: Studio must be open; the one-time switch in Studio is Assistant panel → ⋯ →
+  Manage MCP Servers → **Enable Studio as MCP server** ("Claude Code CLI" quick-connect stays off, "Visual Studio Code"
+  doesn't matter); then have them reconnect: type `/mcp` in the Claude panel → Roblox_Studio → Reconnect (or close and
+  reopen the panel). Until then, continue without in-Studio tests and say so.
+- **BUILD** (the human describes something): read `DESIGN.md` first. If the request overlaps with the teammate's open
+  work (from the START check), warn before building. Create `feature/<short-name>` from `main`, build it, verify it (section 4),
+  and report in plain words. Record new design decisions (numbers, rules, style) in `DESIGN.md` in the same branch.
+- **SHIP** ("Ship it"): one command, all the way to TEST:
+  `lune run tools/check.luau --fix` → commit → `git fetch` + `git merge origin/main` (resolve conflicts; ask the human
+  only about design choices; re-run the check) → push → create the PR (or mark the draft ready) with what/why/verification
+  → `gh pr checks --watch` → `gh pr merge --squash --delete-branch` → `git switch main; git pull` → watch the Deploy run →
+  report "On TEST in version N". The Deploy action posts to Discord automatically if `DISCORD_WEBHOOK_URL` is set;
+  otherwise give them a line to paste: `✅ On TEST: <what>`.
+- **SHARE** ("Share it"): like SHIP but stop after the PR is created (the teammate looks first). Give a Discord line with the link.
+- **PAUSE** ("Pause" / "stop for today"): commit everything as `WIP: …` → push → open a **draft** PR titled
+  `WIP: <what>` (or update it) → stop `rojo serve` → tell them it's saved online and the teammate can see it.
+- **"What changed?"**: `git fetch` → summarise new commits on `main` and the teammate's open PRs in plain words.
+- **RELEASE** ("Release to LIVE as vX.Y.Z", only when said explicitly): `gh workflow run Deploy -f target=live` → watch it →
   tag `vX.Y.Z` on `main` → push the tag → `gh release create vX.Y.Z --generate-notes`.
 
 ## 4. Verify your work, every time
@@ -87,9 +105,9 @@ They may be beginners: explain in plain words, one step at a time, and never ass
 ## 5. Git and delivery
 
 - Branch from up-to-date `main`: `feature/…`, `fix/…`, `chore/…`. Small, focused commits with clear messages.
-- Local sessions: commit, push and open or merge PRs only when the human asks (they may say "ship it" = commit, push, PR).
+- Commit and push as part of SHIP, SHARE and PAUSE (saying those words is the human's go-ahead). Otherwise keep work local.
 - PR description: what changed, how it was verified (check + which playtest steps), anything the human must do.
-- Merge with `gh pr merge --squash --delete-branch` only after CI is green **and** a human asked you to merge.
+- Merge with `gh pr merge --squash --delete-branch` only after CI is green, as part of SHIP (or when a human says "merge it").
 - Merging to `main` auto-publishes to the TEST experience. **Never publish to LIVE** (`tools/publish.luau live`,
   `gh workflow run Deploy -f target=live`) unless a human explicitly asks for it in that message.
 - Never touch `build/`, `Packages/`, `sourcemap.json`, `.env`. Never print or commit the Roblox API key.

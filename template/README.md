@@ -4,15 +4,19 @@ A Roblox game **built by AI** with the roblox-workflow kit. The humans describe;
 and opens pull requests; GitHub checks everything and publishes to the TEST game automatically.
 Long-form handbook: `docs/` in the `roblox-workflow` repo. AI rules: [`CLAUDE.md`](CLAUDE.md).
 
-## How to work on this game (all in VS Code)
+## 🐸 The workflow: START → BUILD → SHIP → PLAY
 
-1. Open VS Code in this folder and open the **Claude Code** panel.
-2. Say **"Start a session"**. Claude updates the code, opens Roblox Studio and starts Rojo.
-   Your only click: in Studio, **Plugins → Rojo → Connect**.
-3. Say what you want, e.g. *"Add a pond in the middle of the map with lily pads. Test it in Studio."*
-   Claude builds it and play-tests it in Studio by itself. Press **F5** in Studio to try it yourself.
-4. Say **"Ship it"**, then **"Merge it"**. About a minute later it's on the TEST game.
-   Claude gives you a line to paste in Discord so your teammate knows.
+| | You | Claude |
+|---|---|---|
+| **0. Discord** | Post what you're working on | |
+| **1. START** | Open **Roblox Studio** (start screen is enough), then VS Code in this folder → Claude panel → **"Start"** | Gets the newest version, tells you what your teammate is working on, opens the game in Studio |
+| | In Studio: **Plugins → Rojo → Connect** (your only click) | |
+| **2. BUILD** | Say what you want: what the player sees and does, numbers, where | Builds it, tests it in Studio, shows you. Repeat until you like it |
+| **3. SHIP** | **"Ship it"** | Checks, saves, merges → on the TEST game about 2 minutes later, Discord gets a message |
+| **4. PLAY** | Play the TEST game together in the Roblox app | |
+
+Stopping before it's finished? **"Pause"**: saved online, continue next time with "Start".
+Sometimes: **"Share it"** (teammate looks first) · **"What changed?"** · **"Release to LIVE as v1.0.0"** (only when you both agreed).
 
 First time on this PC? Tell Claude in the `Roblox` folder: *"Set up my PC."*
 

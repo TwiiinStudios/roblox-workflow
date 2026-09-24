@@ -1,51 +1,44 @@
 # 10 · Cheat sheet
 
-## Things you say to Claude
+```
+ 🐸  START  →  BUILD  →  SHIP  →  PLAY          (+ PAUSE)
+```
+
+| | You | |
+|---|---|---|
+| **0** | Discord: *"I'm doing …"* | |
+| **1. START** | Open Studio → VS Code (game folder) → Claude: **"Start"** → Studio: **Plugins → Rojo → Connect** | |
+| **2. BUILD** | *"Add … (what the player sees/does, numbers, where)"* → feedback until you like it | |
+| **3. SHIP** | **"Ship it"** | → TEST in ~2 min, Discord message |
+| **4. PLAY** | Play TEST together in the Roblox app | |
+| **PAUSE** | **"Pause"** when stopping before it's done | saved online |
+
+## Other things you can say
 
 | When | Say |
 |---|---|
-| New game | "New game: **MyGame**. Create it from the template with a GitHub repo in TwiiinStudios." |
-| Start of a session | "Start a session." (Claude opens Studio; you click Plugins → Rojo → Connect) |
-| Build something | "Add … (what the player sees/does, numbers, where). Test it in Studio." |
-| Change something | "The shop is too far from spawn. Move it next to the spawn and make the button bigger." |
-| Test | "Play-test as a new player: …, screenshot the UI, and check the console for errors." |
-| Deliver | "Ship it." → PR. "Merge it when CI is green." |
-| Catch up | "What changed?" (after your teammate merged something) |
-| Conflicts | "Merge main into my branch and resolve the conflicts. Ask me about design choices." |
-| Teammate's work | "Check out my teammate's pull request about … and play-test it." |
-| Try on real servers | "Publish this branch to TEST." |
-| Release | "Release main to LIVE as v1.2.0." (only when you both agreed) |
-| Broken | "CI is red on my PR, fix it." / "LIVE is broken since v1.2.0: … Find and fix it." |
+| Teammate should look first | "Share it" |
+| Catch up | "What changed?" |
+| Try their unfinished work | "Show me what my teammate is working on and play-test it." |
+| Real servers before shipping | "Publish this branch to TEST." |
+| Release (both agreed) | "Release to LIVE as v1.2.0." |
+| Something's broken | "The shop button does nothing when I click it." / "LIVE is broken since v1.2.0: …" |
 | Generated art | "Generate a cartoon frog mesh in Studio, capture it, and use it for the frog model." |
+| Design question | "What did we decide about egg prices?" (Claude checks `DESIGN.md`) |
+| New game | "New game: **MyGame**. Create it from the template with a GitHub repo in TwiiinStudios." |
+| New PC / new teammate | "Set up my PC." |
 
-## Coordination (Discord)
+## Your only manual actions
 
-- Before starting: post what you're working on.
-- After "Merge it": paste the line Claude gives you.
-- Release to LIVE only when you both agreed in Discord.
+1. Studio: **Plugins → Rojo → Connect** (once per session)
+2. **Ctrl+S** in Studio when Claude asks (only after it generated an asset in Studio)
+3. **F5** whenever you want to play it yourself in Studio
 
-## Your only manual Studio actions
+## If something's off
 
-1. **Plugins → Rojo → Connect** in Studio (once per session; Claude opens Studio for you)
-2. **Ctrl+S** when Claude asks (after it captured a generated asset)
-3. **F5** whenever you want to play it yourself
-
-## Commands (Claude runs these, but you can too)
-
-```powershell
-lune run tools/check.luau --fix      # format + lint + world lint + tests + build
-lune run tools/build.luau            # build/game.rbxl
-rojo serve                           # live sync into Studio
-lune run tools/capture.luau          # Studio Captured folders → files
-lune run tools/publish.luau test     # publish to TEST (needs .env)
-gh workflow run Deploy -f target=live
-git switch main; git pull; wally install
-```
-
-## Undo
-
-| Situation | What to do |
+| Problem | Fix |
 |---|---|
-| Don't like what Claude just did (not committed) | "Undo those changes." (`git restore .`) |
-| Bad merge on `main` | "Revert PR #12." |
+| Claude can't see Studio | Studio open? Claude panel: `/mcp` → Roblox_Studio → Reconnect |
+| Changes don't show in Studio | Plugins → Rojo → Connect (again) |
+| Don't like what Claude just did | "Undo that." |
 | LIVE broken | Creator Hub → Place → Version History → Restore, then fix on TEST |

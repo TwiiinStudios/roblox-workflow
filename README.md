@@ -26,6 +26,22 @@ Claude installs everything else (Git, GitHub CLI, Rokit + tools, Roblox Studio, 
 connection), downloads all our games, and tells you the few clicks only you can do: "Yes" on Windows install prompts,
 logging in to GitHub in your browser, logging in to Roblox Studio. Details: [01 · One-time setup](docs/01-one-time-setup.md).
 
+## 🐸 The workflow (remember four words)
+
+```
+ START  →  BUILD  →  SHIP  →  PLAY          (+ PAUSE when you stop before it's finished)
+```
+
+| | You |
+|---|---|
+| **0** | Discord: *"I'm doing the fly shop"* |
+| **START** | Open Roblox Studio → VS Code in the game folder → Claude: **"Start"** → Studio: **Plugins → Rojo → Connect** |
+| **BUILD** | Tell Claude what you want. It builds and tests it in Studio by itself |
+| **SHIP** | **"Ship it"** → on the TEST game ~2 min later, Discord gets a message |
+| **PLAY** | Play TEST together in the Roblox app |
+
+More: [04 · Daily workflow](docs/04-daily-workflow.md) · one page: [10 · Cheat sheet](docs/10-cheatsheet.md)
+
 ## Team
 
 | | |

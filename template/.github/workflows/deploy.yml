@@ -26,6 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TARGET: ${{ inputs.target || 'test' }}
+      HAS_DISCORD: ${{ secrets.DISCORD_WEBHOOK_URL != '' }}
     steps:
       - uses: actions/checkout@v6
 
@@ -58,4 +59,29 @@ jobs:
             echo "::warning::deploy.json has no place ID for ${TARGET} - skipping publish."
             exit 0
           fi
-          lune run tools/publish.luau "$TARGET" --yes
+          lune run tools/publish.luau "$TARGET" --yes | tee publish.log
+          VERSION=$(grep -o 'version [0-9]*' publish.log | awk '{print $2}')
+          echo "PUBLISHED_VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      # Optional: posts to Discord when the DISCORD_WEBHOOK_URL repo secret exists
+      # (Discord channel settings → Integrations → Webhooks → New Webhook → Copy URL).
+      - name: Tell Discord
+        if: always() && env.HAS_DISCORD == 'true'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          JOB_STATUS: ${{ job.status }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          TITLE=$(git log -1 --pretty=%s)
+          GAME="${{ github.event.repository.name }}"
+          if [ "$JOB_STATUS" != "success" ]; then
+            MSG="❌ **${GAME}**: publishing to ${TARGET^^} failed (${TITLE}) - ${RUN_URL}"
+          elif [ -z "$PUBLISHED_VERSION" ]; then
+            exit 0
+          elif [ "$TARGET" = "live" ]; then
+            MSG="🌍 **${GAME} LIVE updated** (version ${PUBLISHED_VERSION}) by ${{ github.actor }}"
+          else
+            MSG="🧪 **${GAME} TEST updated** (version ${PUBLISHED_VERSION}): ${TITLE} - by ${{ github.actor }}"
+          fi
+          jq -n --arg content "$MSG" '{content: $content}' |
+            curl -sS -H "Content-Type: application/json" -d @- "$DISCORD_WEBHOOK_URL" > /dev/null
