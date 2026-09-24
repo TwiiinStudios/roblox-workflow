@@ -20,10 +20,10 @@ Do **Part A once per person** (each PC). Do **Part B once for the team**.
 |---|---|---|
 | **Git** | Version control | https://git-scm.com/download/win (defaults are fine) |
 | **GitHub CLI** (`gh`) | Repos, PRs, secrets from the terminal | `winget install GitHub.cli` |
-| **Claude Code** | The AI that builds the games | https://claude.ai/code (install, then run `claude` once to log in) |
+| **VS Code** + **Claude Code extension** | Where you work: you talk to Claude in its panel | https://code.visualstudio.com, then Extensions → "Claude Code" (Anthropic) → Install → log in |
+| **Claude Code CLI** | Used by scripts (`claude mcp add`) | `winget install Anthropic.ClaudeCode` |
 | **Rokit** | Installs Rojo, Lune, selene, StyLua, Wally per project | https://github.com/rojo-rbx/rokit#installation (then `rokit self-install`) |
 | **Roblox Studio** | Engine; the AI play-tests here | https://create.roblox.com |
-| **VS Code** (optional) | To read code yourself | https://code.visualstudio.com |
 
 Restart the terminal, then check: `git --version`, `gh --version`, `claude --version`, `rokit --version`.
 
@@ -115,7 +115,7 @@ Invite a member: Org → People → Invite member → role **Member**.
 > The rule "LIVE only when both agree" is a team agreement (and Claude never does it unasked). GitHub Team (paid)
 > can enforce it with a protected `live` environment.
 
-### B3. Claude on GitHub (lets you order features from a GitHub issue, even on your phone)
+### B3. Claude on GitHub (optional: automatic PR reviews + `@claude` in PR comments)
 
 In Claude Code, inside any game repo folder:
 ```

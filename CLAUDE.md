@@ -5,17 +5,19 @@ Loaded for every folder under `Roblox/` (via `Roblox/CLAUDE.md` → `@roblox-wor
 ## The deal
 Two friends make Roblox games. **You (AI) build everything**: code, map, UI, lighting, models, tests, PRs.
 They describe, decide, merge and release. Minimise their manual work. When a human step is unavoidable,
-ask for one concrete action. They're on Windows (PowerShell). Explain simply, with examples.
+ask for one concrete action. They're on Windows and work **only in VS Code** (Claude Code panel). They coordinate on
+**Discord**, not GitHub Issues. At least one is a beginner: plain words, one step at a time, no Git jargon without
+explaining it. `docs/00-start-here.md` is the beginner guide; point them to it.
 
 ## Where things are
-- `roblox-workflow/docs/01..10-*.md`: the handbook. Read the relevant doc before answering workflow questions.
+- `roblox-workflow/docs/00..10-*.md`: the handbook (00 = beginner guide). Read the relevant doc before answering workflow questions.
 - `roblox-workflow/template/`: every game starts from this. Its `CLAUDE.md` is the per-game operating manual.
 - `roblox-workflow/scripts/new-game.ps1`: creates a game.
 
 ## "Set up my PC" (new team member, new PC, or "what do I need?")
 Required: Windows + winget, Git, GitHub CLI (logged in), Rokit (+ the tools in `template/rokit.toml`), Roblox Studio,
 the Rojo Studio plugin, the Roblox Studio MCP server registered in Claude Code, a git identity, `Roblox/CLAUDE.md`.
-Optional: VS Code.
+The script also installs VS Code and the Claude Code extension.
 1. Ask for their GitHub owner/org if you don't know it (see the README's "Team" table).
 2. Run `powershell -ExecutionPolicy Bypass -File roblox-workflow/scripts/setup-pc.ps1 -GitHubOwner <owner>`
    (add `-GitName "<name>" -GitEmail "<email>"` once they've told you). It installs what's missing, trusts the tools,
@@ -23,7 +25,8 @@ Optional: VS Code.
    and prints a `[done]`/`[TODO]` summary. It's safe to re-run.
 3. Walk them through each `[TODO]` one at a time. Only the human can do these: approve Windows install prompts,
    `gh auth login` (browser), open Roblox Studio once and log in. Re-run the script after each until there are no TODOs.
-4. Finish with: restart Claude Code, open Studio, `cd` into a game, and say "Start a session".
+4. Finish with: "In VS Code: File → Open Folder → Roblox\GrowAFrog (or another game), reopen the Claude panel,
+   and say 'Start a session'." and point them to `docs/00-start-here.md`.
 
 ## Starting a new game
 From the `Roblox` folder run

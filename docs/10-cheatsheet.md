@@ -5,29 +5,28 @@
 | When | Say |
 |---|---|
 | New game | "New game: **MyGame**. Create it from the template with a GitHub repo in TwiiinStudios." |
-| Start of a session | "Start a session." (then open `build/game.rbxl` in Studio → Rojo → Connect) |
+| Start of a session | "Start a session." (Claude opens Studio; you click Plugins → Rojo → Connect) |
 | Build something | "Add … (what the player sees/does, numbers, where). Test it in Studio." |
 | Change something | "The shop is too far from spawn. Move it next to the spawn and make the button bigger." |
 | Test | "Play-test as a new player: …, screenshot the UI, and check the console for errors." |
 | Deliver | "Ship it." → PR. "Merge it when CI is green." |
-| Pick up work | "What issues are open? Take #7." |
+| Catch up | "What changed?" (after your teammate merged something) |
 | Conflicts | "Merge main into my branch and resolve the conflicts. Ask me about design choices." |
-| Friend's work | "Check out PR #5 and play-test it." |
+| Teammate's work | "Check out my teammate's pull request about … and play-test it." |
 | Try on real servers | "Publish this branch to TEST." |
 | Release | "Release main to LIVE as v1.2.0." (only when you both agreed) |
 | Broken | "CI is red on my PR, fix it." / "LIVE is broken since v1.2.0: … Find and fix it." |
 | Generated art | "Generate a cartoon frog mesh in Studio, capture it, and use it for the frog model." |
 
-## From anywhere (GitHub)
+## Coordination (Discord)
 
-- New issue: `@claude add …`
-- PR comment: `@claude change …`
-- Merge: the green **Squash and merge** button
-- Release: **Actions → Deploy → Run workflow → live**
+- Before starting: post what you're working on.
+- After "Merge it": paste the line Claude gives you.
+- Release to LIVE only when you both agreed in Discord.
 
 ## Your only manual Studio actions
 
-1. Open `build/game.rbxl` → **Plugins → Rojo → Connect** (once per session)
+1. **Plugins → Rojo → Connect** in Studio (once per session; Claude opens Studio for you)
 2. **Ctrl+S** when Claude asks (after it captured a generated asset)
 3. **F5** whenever you want to play it yourself
 

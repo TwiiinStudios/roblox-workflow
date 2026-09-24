@@ -3,7 +3,7 @@
     Sets up (or checks) a Windows PC for the roblox-workflow. Safe to run again at any time.
 
 .DESCRIPTION
-    Installs what's missing (winget): Git, GitHub CLI, Rokit, Roblox Studio (+ VS Code with -WithVSCode).
+    Installs what's missing (winget): Git, GitHub CLI, Rokit, Roblox Studio VS Code + the Claude Code extension.
     Trusts the Rokit tools the template uses, installs the Rojo Studio plugin, registers the Roblox Studio
     MCP server with Claude Code, creates Roblox\CLAUDE.md, and (with -GitHubOwner) clones every game repo.
     Ends with a list of what's done and what a human still has to do.
@@ -19,8 +19,8 @@ param(
     # Set the git identity (only if not set yet).
     [string]$GitName,
     [string]$GitEmail,
-    # Also install VS Code (optional, for reading code yourself).
-    [switch]$WithVSCode
+    # Skip installing VS Code + the Claude Code extension.
+    [switch]$NoVSCode
 )
 
 $ErrorActionPreference = 'Continue'
@@ -57,7 +57,7 @@ if (-not (Has 'winget')) {
         @{ Name = 'Rokit';         Id = 'Rojo.Rokit';             Present = { (Has 'rokit') -or (Test-Path "$HOME\.rokit\bin\rokit.exe") } },
         @{ Name = 'Roblox Studio'; Id = 'Roblox.RobloxStudio';    Present = { [bool](Find-Studio) } }
     )
-    if ($WithVSCode) { $apps += @{ Name = 'VS Code'; Id = 'Microsoft.VisualStudioCode'; Present = { Has 'code' } } }
+    if (-not $NoVSCode) { $apps += @{ Name = 'VS Code'; Id = 'Microsoft.VisualStudioCode'; Present = { Has 'code' } } }
 
     foreach ($app in $apps) {
         if (& $app.Present) {
@@ -72,6 +72,16 @@ if (-not (Has 'winget')) {
     }
 }
 Update-SessionPath
+
+if (-not $NoVSCode -and (Has 'code')) {
+    $extensions = code --list-extensions 2>$null
+    if ($extensions -contains 'anthropic.claude-code') { $done.Add("VS Code Claude Code extension installed") }
+    else {
+        code --install-extension anthropic.claude-code 2>&1 | Out-Null
+        if ($LASTEXITCODE -eq 0) { $done.Add("VS Code Claude Code extension installed now") }
+        else { $todo.Add("In VS Code: Extensions > search 'Claude Code' (Anthropic) > Install.") }
+    }
+}
 
 if (-not (Has 'claude')) {
     $todo.Add("Install Claude Code: winget install Anthropic.ClaudeCode   (then run 'claude' once to log in)")

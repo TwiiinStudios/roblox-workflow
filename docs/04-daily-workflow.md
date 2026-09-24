@@ -1,97 +1,64 @@
-# 04 · Daily workflow: building with AI
+# 04 · Daily workflow
 
-You have **two ways** to get things built. Use whichever fits the moment.
+New to all of this? Read [00 · Start here](00-start-here.md) first. This page is the same loop with a bit more detail.
 
-| | Mode A: Claude on your PC | Mode B: Claude on GitHub |
-|---|---|---|
-| Where | Claude Code in the game folder | A GitHub issue or PR comment with `@claude` |
-| Studio play-testing by AI | ✅ yes (Studio MCP) | ❌ no, checks and unit tests only |
-| Good for | Gameplay, world, UI, anything visual | Small changes, balancing, ideas from your phone |
-| You need | PC with Studio open | Just a browser or phone |
+Everything happens in **VS Code** (Claude Code panel). Coordination happens in **Discord**. Studio only runs in the
+background so Claude can test in it.
 
----
+## The loop
 
-## Mode A: Claude on your PC
-
-### 1. Start the session (1 minute, the only routine manual step)
-
-```powershell
-cd $HOME\Documents\Projects\Roblox\GrowAFrog
-claude
 ```
-Say: **"Start a session."** Claude pulls `main`, runs `wally install`, builds `build/game.rbxl` and starts `rojo serve`.
-It then asks you to **open `build/game.rbxl` in Studio and click Rojo → Connect**. Do that once; it stays connected
-while Claude works.
+ Discord: "I'm doing the fly shop"
+      │
+ VS Code → Claude: "Start a session"
+      │   Claude: pulls latest main → builds → opens Studio → starts Rojo
+      │   You: Studio → Plugins → Rojo → Connect   (the only click)
+      ▼
+ You: "Add a fly shop next to spawn… Test it in Studio."
+      │   Claude: new branch → writes code/world/UI → checks → play-tests in Studio → fixes → reports
+      │   You (optional): F5 in Studio, give feedback, repeat
+      ▼
+ You: "Ship it"   → Claude: commit → push → pull request → checks run on GitHub
+ You: "Merge it"  → Claude: merge → Deploy → TEST updated (~1 min) → gives you a Discord line
+      ▼
+ Discord: "✅ On TEST: fly shop next to spawn"  → you both play TEST in the Roblox app
+```
 
-### 2. Describe what you want
+## What to say, and what Claude does
 
-Be specific about **what** and **why**, not how. Claude handles the how.
-
-> "Add feeding: players buy flies at a shop stand next to the spawn (10 coins each), then click their frog to feed it.
-> Each fly grows the frog by 5, up to 1000. Show the frog's size above its head. Test it in Studio."
-
-Claude will:
-1. create a branch `feature/frog-feeding`,
-2. write the code (FrogService, ShopController, Remotes, Config), the shop stand (a world builder) and the UI,
-3. run `lune run tools/check.luau --fix`,
-4. **play-test in Studio**: start play, walk to the shop, buy flies, click the frog, read the console, take screenshots,
-5. fix what it finds, and repeat until it works,
-6. tell you what it built and what it verified.
-
-### 3. Look at it yourself (optional but recommended)
-
-Press **F5** in Studio and play for a minute. Tell Claude what to change:
-> "The shop stand is too far from spawn and the size label is too small on my phone-size window. Fix both."
-
-### 4. Ship it
-
-> "Ship it."
-
-Claude commits, pushes and opens a PR. **CI** checks it and **Claude Review** comments on it.
-> "Merge it when CI is green."
-
-Merged → about 1 minute later it's on the **TEST** experience. Play it on Roblox, together, on any device.
-
-### 5. Next task
-
-> "Next: eggs that hatch into random frogs. Common 70%, rare 25%, legendary 5%."
-
-Claude starts a new branch from the updated `main` by itself.
-
----
-
-## Mode B: Claude on GitHub (from anywhere)
-
-1. On GitHub: **Issues → New issue**.
-2. Title: `Daily reward`. Body:
-   > @claude add a daily login reward: 50 coins, doubled for each day in a row, max 7 days. Show a popup on join.
-3. Claude reacts in the issue, works on a branch, and opens a **PR** linked to the issue.
-4. CI + Claude Review run. Want changes? Comment on the PR:
-   > @claude make the popup close automatically after 5 seconds
-5. Happy? **Merge** (the green button), and it's on TEST.
-
-Tip: for visual things, finish in Mode A. Tell your local Claude:
-*"Check out PR #12 and play-test it in Studio."*
-
----
-
-## What stays human (on purpose)
-
-| Human job | Why |
+| You say | Claude does |
 |---|---|
-| Deciding **what** to build and whether it's fun | That's the game design. It's yours. |
-| Opening Studio + clicking Connect once per session | Studio is a desktop app |
-| Pressing Ctrl+S when Claude captured a generated asset | Studio needs to save to disk |
-| Merging to `main` (or saying "merge it") | Quality gate |
-| **Releasing to LIVE** | Real players, real data |
-| Money, keys, group and experience settings | Account security |
+| **"Start a session"** | `git pull`, installs tools and packages, builds `build/game.rbxl`, opens it in Studio, starts `rojo serve`, asks you to click Connect, checks the Studio connection |
+| **"Add / change … Test it in Studio."** | Makes a branch (e.g. `feature/fly-shop`), builds it, runs all checks, play-tests with the Studio MCP, fixes, and explains what it verified |
+| **"Ship it"** | Commits, pushes, opens a pull request with a description, reports the link + a Discord line |
+| **"Merge it"** | Waits for the checks, merges, waits for the TEST deploy, reports + a Discord line |
+| **"What changed?"** | Pulls and summarises what your teammate merged |
+| **"Release to LIVE as v0.1.0"** | Only when you both agreed: publishes to LIVE, tags the version ([07](07-publishing.md)) |
 
-## Good requests vs. bad requests
+## Tips for good results
 
 | ❌ Vague | ✅ Clear |
 |---|---|
-| "make it better" | "Frogs feel slow. Make walking 30% faster and add a hop animation when they move." |
-| "add a shop" | "Add a shop stand at spawn selling flies (10 coins) and golden flies (100 coins, 10x growth)." |
+| "make it better" | "Frogs feel slow. Make them walk 30% faster and hop when they move." |
+| "add a shop" | "Add a shop stand at spawn: flies for 10 coins, golden flies for 100 coins (10x growth)." |
 | "fix the bug" | "When two players feed the same frog, both get charged. Only the owner should be able to feed it." |
 
-Mention: **what** the player sees and does, **numbers**, **where** in the world, and **"test it in Studio"**.
+- Say **what the player sees and does**, **numbers**, **where**, and end with **"Test it in Studio."**
+- One thing at a time. Ship small changes often, rather than one giant change after a week.
+- Claude asks you design questions ("should frogs die if not fed?"). Answer them. That's your job as the game designer.
+
+## What stays human, on purpose
+
+| You | Why |
+|---|---|
+| Deciding what to build and whether it's fun | That's the game design |
+| The Rojo → Connect click | Studio doesn't let other programs press its buttons |
+| "Merge it" | Quality gate: nothing reaches TEST without a human saying so |
+| Releasing to LIVE | Real players, real data |
+| Roblox/GitHub settings, API keys, Robux | Account security |
+
+## Optional: from your phone
+
+If the `CLAUDE_CODE_OAUTH_TOKEN` secret is set on the repo, you can also comment `@claude …` on a pull request on GitHub,
+e.g. *"@claude make the shop button bigger"*, and Claude changes it there. Handy when you're away from your PC;
+not needed day to day.

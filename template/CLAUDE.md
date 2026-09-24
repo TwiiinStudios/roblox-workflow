@@ -50,12 +50,20 @@ Anything created in Studio outside the two `Captured` folders **is lost** on the
 
 ## 3. Routines the humans trigger by name
 
+The humans work **only in VS Code** (Claude Code panel) and coordinate with each other on **Discord**, not GitHub Issues.
+They may be beginners: explain in plain words, one step at a time, and never assume they know Git.
+
 - **"Start a session"**: `git switch main` → `git pull` → `rokit install` → `wally install` →
-  `lune run tools/build.luau` → start `rojo serve` in the background → check that the Studio MCP tools respond
-  (`list_roblox_studios`) → ask the human to open `build/game.rbxl` in Studio and click **Rojo → Connect** →
-  confirm with a quick `execute_luau` that `ServerScriptService.Server` exists. Then list open issues (`gh issue list`).
-- **"Ship it"**: check passes → commit → push → `gh pr create` with what/why/verification → report the PR link.
-- **"Merge it"**: wait for CI (`gh pr checks --watch`) → `gh pr merge --squash --delete-branch` → `git switch main; git pull`.
+  `lune run tools/build.luau` → start `rojo serve` in the background → open Studio with the game yourself
+  (`Start-Process build/game.rbxl` in PowerShell; skip if Studio already shows it) → tell the human the one thing to do:
+  *"In Studio, click the Plugins tab → Rojo → Connect."* → confirm through the Studio MCP (`list_roblox_studios`, then a
+  quick `execute_luau` that `ServerScriptService.Server` exists) → say "Ready, what do you want to build?".
+  If the Studio MCP tools are missing, tell them to restart the Claude Code panel with Studio open.
+- **"Ship it"**: check passes → commit → push → `gh pr create` with what/why/verification → report the PR link and give
+  a one-line message they can paste in Discord, e.g. `🐸 PR ready: fly shop next to spawn - <link>`.
+- **"Merge it"**: wait for CI (`gh pr checks --watch`) → `gh pr merge --squash --delete-branch` → `git switch main; git pull`
+  → wait for the Deploy run → give a Discord line: `✅ On TEST: fly shop next to spawn (pull main before your next change)`.
+- **"What changed?"** (e.g. after the other person merged something): `git pull` and summarise the new commits on `main` in plain words.
 - **"Release to LIVE as vX.Y.Z"** (only when said explicitly): `gh workflow run Deploy -f target=live` → watch it →
   tag `vX.Y.Z` on `main` → push the tag → `gh release create vX.Y.Z --generate-notes`.
 
@@ -64,8 +72,8 @@ Anything created in Studio outside the two `Captured` folders **is lost** on the
 1. `lune run tools/check.luau --fix` (format, lint, world-file lint, unit tests, build) must end with "All good".
 2. **In-Studio test** (local sessions with the Roblox Studio MCP tools available):
    - Have `rojo serve` running (start it in the background if it isn't), with Studio showing `build/game.rbxl`
-     and the Rojo plugin connected. If Studio isn't set up, ask the human once:
-     *"Open build/game.rbxl in Studio and click Rojo → Connect."*
+     (open it yourself with `Start-Process build/game.rbxl`) and the Rojo plugin connected. If it isn't connected,
+     ask the human once: *"In Studio, click Plugins → Rojo → Connect."*
    - `start_stop_play` → `get_console_output` (no errors or warnings from our scripts) → `screen_capture`
      (does it look right?) → `character_navigation` / `user_keyboard_input` / `user_mouse_input` to actually use the
      feature → stop play. Use `execute_luau` to inspect state (e.g. a player's coins) when needed.

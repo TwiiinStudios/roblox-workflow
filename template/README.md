@@ -4,37 +4,19 @@ A Roblox game **built by AI** with the roblox-workflow kit. The humans describe;
 and opens pull requests; GitHub checks everything and publishes to the TEST game automatically.
 Long-form handbook: `docs/` in the `roblox-workflow` repo. AI rules: [`CLAUDE.md`](CLAUDE.md).
 
-## How to get something built
+## How to work on this game (all in VS Code)
 
-**On your PC** (Claude Code in this folder, Studio open for AI playtesting):
-> "Add a pond in the middle of the map with lily pads the frogs can sit on. Test it in Studio, then ship it."
+1. Open VS Code in this folder and open the **Claude Code** panel.
+2. Say **"Start a session"**. Claude updates the code, opens Roblox Studio and starts Rojo.
+   Your only click: in Studio, **Plugins → Rojo → Connect**.
+3. Say what you want, e.g. *"Add a pond in the middle of the map with lily pads. Test it in Studio."*
+   Claude builds it and play-tests it in Studio by itself. Press **F5** in Studio to try it yourself.
+4. Say **"Ship it"**, then **"Merge it"**. About a minute later it's on the TEST game.
+   Claude gives you a line to paste in Discord so your teammate knows.
 
-**From anywhere** (phone, browser): open a GitHub issue:
-> "@claude add a daily reward: 50 coins, streak doubles it up to 7 days"
+First time on this PC? Tell Claude in the `Roblox` folder: *"Set up my PC."*
 
-Claude builds it on a branch and opens a PR. CI checks it, and Claude reviews it automatically.
-You (or Claude, when you say so) merge it, and it's live on TEST about a minute later.
-
-## First time on this project
-
-```powershell
-gh repo clone <owner>/__GAME_NAME__
-cd __GAME_NAME__
-rokit install
-wally install
-lune run tools/check.luau        # should end with "All good"
-```
-
-## Starting a session with in-Studio testing
-
-```powershell
-lune run tools/build.luau
-rojo serve
-```
-Studio: **File → Open from File → `build/game.rbxl`** → **Plugins → Rojo → Connect**. Then start Claude Code in this folder.
-Claude can now see the game, play-test it, take screenshots and read the console through the Studio MCP connection.
-
-## Commands
+## Commands (Claude runs these for you)
 
 | Command | What it does |
 |---|---|

@@ -14,9 +14,8 @@ too, and so you can change them: edit this file **and** `template/CLAUDE.md` in 
 ## Commits and PRs
 
 - Commit message: short, present tense, what changed. *"Add fly shop stand at spawn"*.
-- One PR per task/issue. The description says **what** changed and **how it was verified**.
+- One PR per change. The description says **what** changed and **how it was verified**.
 - CI green before merging. **Squash and merge.**
-- PR mentions `Closes #12` when it finishes an issue (it closes automatically).
 
 ## Code style
 

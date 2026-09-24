@@ -94,7 +94,7 @@ Keep the key somewhere safe (e.g. a password manager) or just generate a new one
 
 In Claude Code, inside the game folder: `/install-github-app` → choose **TwiiinStudios** → **All repositories** →
 it stores `CLAUDE_CODE_OAUTH_TOKEN` in this repo. Needed **per repo** on the free GitHub plan (org-level secrets don't
-reach private repos). This enables `@claude` in issues/PRs and the automatic PR review.
+reach private repos). Optional: enables the automatic PR review and `@claude` in PR comments. Everything else works without it.
 
 ## 7. First deploy and check
 

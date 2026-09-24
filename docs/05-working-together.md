@@ -1,70 +1,50 @@
-# 05 · Working together (two people, two AIs)
+# 05 · Working together (two people, two Claudes, one Discord)
 
-Each of you drives your own Claude. Both Claudes work on the same repo through Git, exactly like two
-human programmers, so the same rules apply.
+Each of you talks to your own Claude in your own VS Code. Both Claudes work on the same game through GitHub.
+You two coordinate in **Discord**.
 
-## The golden rules
+## The rules (that's all of them)
 
-1. **One task = one branch = one PR.** Never two people on the same branch.
-2. **Split by system.** You do frogs, your friend does the shop. Different files mean no conflicts.
-3. **Use GitHub Issues as the to-do list.** Every task is an issue, and the person working on it assigns it to themselves.
-4. **Merge often.** Small PRs merged daily beat one giant PR after two weeks.
-5. **Each person play-tests in their own Studio** with their own `build/game.rbxl`. Never Team Create, never a shared place.
-
-## The task board (GitHub Issues)
-
-```
-#4  Frog feeding               → assigned: you       (Mode A, needs Studio)
-#5  Shop UI                    → assigned: friend    (Mode A)
-#6  Daily reward               → @claude             (Mode B, runs on GitHub)
-#7  Pond area in the map       → unassigned
-```
-
-Ask your Claude: *"What issues are open? Take #7 and assign it to me."* It uses `gh issue list` / `gh issue edit`.
+1. **Say in Discord what you're working on before you start.** *"I'm doing the fly shop."*
+2. **Work on different things.** You do frogs, your teammate does the shop. Then your changes combine automatically.
+3. **Small changes, merged often.** Ship and merge when something works, don't sit on it for a week.
+4. **Post Claude's Discord line when you merge.** Then the other person knows TEST changed.
+5. **Always start with "Start a session".** It pulls the other person's latest work first.
 
 ## What happens when you both work at the same time
 
-### Different files → nothing to do ✅
-`FrogService.luau` (you) and `ShopController.luau` (friend) merge cleanly.
+**You changed different things → nothing to do ✅**
+Your fly shop and their egg hatching live in different files, and both merges just work.
 
-### Same text file, different lines → Git merges automatically ✅
-You add `FLY_PRICE` to `Config.luau`; your friend adds `EGG_PRICE`. Both land.
+**You both changed the same file, different parts → combined automatically ✅**
+You add a fly price to the settings file; they add an egg price. Both stay.
 
-### Same lines → merge conflict → let Claude fix it ⚠️
-GitHub shows *"This branch has conflicts"* on your PR. Tell your Claude:
+**You both changed the exact same thing → Claude asks you ⚠️**
+Example: you set flies to 10 coins, your teammate set them to 20. When you say "Ship it" or "Merge it", Claude sees the
+clash (*merge conflict*), keeps everything it can combine, and asks you about the rest:
+> "Your teammate set FLY_PRICE to 20, you set it to 10. Which one?"
 
-> "Merge main into my branch and resolve the conflicts. If a conflict is a design decision, ask me."
+Decide together on Discord and answer Claude. Nothing gets lost.
 
-Claude runs `git pull origin main`, sees for example:
-```lua
-<<<<<<< HEAD
-	GROWTH_PER_FLY = 5,
-=======
-	GROWTH_PER_FLY = 10,
->>>>>>> main
-```
-It keeps both changes where it can. When the same value was changed to two different numbers, it **asks you**,
-because that's a game-design choice. Then it runs the checks, commits and pushes. The PR turns green.
+**You want to try your teammate's change before it's merged**
+> "Check out my teammate's pull request about the egg hatching and play-test it."
 
-### Same `.rbxm` in `Captured/` → can't be merged
-Binary files can't be combined. Claude keeps one version (usually `main`'s) and re-captures your change on top.
-To avoid this, only one person works on a given captured asset at a time (another reason to use issues).
+## Things that can't be combined
 
-### Your friend's work isn't merged yet but you need it
-> "Check out my friend's PR #5, play-test it in Studio and tell me if it works."
+Things Claude generated inside Studio (like an AI-made 3D frog mesh, stored as `.rbxm` files in `Captured/`
+folders) can't be merged line by line. Only one person should work on a given generated asset at a time. Mention it in Discord.
 
-Or wait for the merge. Usually better.
+## A good split for GrowAFrog (example)
 
-## Reviewing each other's PRs
+| Person A | Person B |
+|---|---|
+| Frogs: growing, feeding, sizes | Shop and money |
+| Saving player data | Eggs and hatching, rarities |
+| The map: pond, paths, decoration | The UI: shop menu, HUD |
 
-Claude Review comments automatically. The human review is short:
-1. Read the PR description: what changed, what was verified.
-2. Glance at Claude Review's summary. Any "must change"?
-3. For gameplay: have your Claude check it out and play-test it, or play TEST after merging.
-4. Approve and merge.
+The shared settings file (`Config.luau`) gets touched by both. That's fine: it merges cleanly unless you change the same line.
 
-## Keeping each other in the loop
+## Checking each other's work
 
-- Before starting: assign the issue (it tells the other person you're on it).
-- After merging something big: post *"#4 merged, pull main"* in your chat.
-- Claude pulls `main` at the start of every session, so you're always up to date.
+Every pull request is checked automatically by GitHub (and by Claude Review if the Claude token is set up).
+The human part is simple: after a merge, **play TEST** and say in Discord what you think.
