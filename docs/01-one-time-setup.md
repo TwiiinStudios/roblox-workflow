@@ -20,10 +20,10 @@ Do **Part A once per person** (each PC). Do **Part B once for the team**.
 |---|---|---|
 | **Git** | Version control | https://git-scm.com/download/win (defaults are fine) |
 | **GitHub CLI** (`gh`) | Repos, PRs, secrets from the terminal | `winget install GitHub.cli` |
-| **Claude Code** | The AI that builds the games | https://claude.ai/code (install, then run `claude` once to log in) |
+| **VS Code** + **Claude Code extension** | Where you work: you talk to Claude in its panel | https://code.visualstudio.com, then Extensions → "Claude Code" (Anthropic) → Install → log in |
+| **Claude Code CLI** | Used by scripts (`claude mcp add`) | `winget install Anthropic.ClaudeCode` |
 | **Rokit** | Installs Rojo, Lune, selene, StyLua, Wally per project | https://github.com/rojo-rbx/rokit#installation (then `rokit self-install`) |
 | **Roblox Studio** | Engine; the AI play-tests here | https://create.roblox.com |
-| **VS Code** (optional) | To read code yourself | https://code.visualstudio.com |
 
 Restart the terminal, then check: `git --version`, `gh --version`, `claude --version`, `rokit --version`.
 
@@ -82,11 +82,20 @@ Claude Code reads `CLAUDE.md` files in parent folders, so every game under `Robl
 
 ### B1. Roblox Group
 
-1. One person creates a group (communities → Create) and invites the other.
-2. **Configure → Roles**: give both of you a role that can **edit group experiences**.
+Roblox now calls groups **Communities**. Why one: the games belong to the community, not a personal account; roles give
+the teammate exactly the rights they need; Robux lands in shared group funds and can be paid out (one-off or recurring %);
+assets and the publishing API keys live under the community.
 
-The games belong to the group, so nobody loses access and revenue can be split.
-(No group yet? One person owns the games and adds the other as a Collaborator in Creator Hub.)
+1. Have **100 Robux** (the cost of creating one).
+2. roblox.com → **Communities** → **Create Community** → name (e.g. `TwiiinStudios`), description, square emblem
+   (moderated) → pay → created.
+3. The teammate opens the community page → **Join Community**.
+4. Community page → **⋯ → Configure Community → Roles → Create Role**, e.g. `Developer`. Permissions:
+   - ✅ edit/manage the community's experiences, ✅ view analytics
+   - ❌ spend group funds, ❌ manage roles, ❌ kick/ban members (owner only)
+5. **Members** → assign the teammate to `Developer`.
+
+(No community? One person owns the games and adds the other as a Collaborator in Creator Hub. You can move later, but it's painful.)
 
 ### B2. GitHub Organization
 
@@ -106,7 +115,7 @@ Invite a member: Org → People → Invite member → role **Member**.
 > The rule "LIVE only when both agree" is a team agreement (and Claude never does it unasked). GitHub Team (paid)
 > can enforce it with a protected `live` environment.
 
-### B3. Claude on GitHub (lets you order features from a GitHub issue, even on your phone)
+### B3. Claude on GitHub (optional: automatic PR reviews + `@claude` in PR comments)
 
 In Claude Code, inside any game repo folder:
 ```

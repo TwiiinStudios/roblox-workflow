@@ -1,5 +1,5 @@
 ## What does this change?
-<!-- One or two sentences. Closes #<issue> if it finishes one. -->
+<!-- One or two sentences. -->
 
 ## How was it verified?
 - [ ] `lune run tools/check.luau` passes

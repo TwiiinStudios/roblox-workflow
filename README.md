@@ -11,25 +11,20 @@ Roblox/                      ← games folder (same layout on both PCs)
 └── NextGame/
 ```
 
-## New here? Set up your PC in 3 steps
+## New here? Set up your PC (about 20 minutes, mostly waiting)
 
-1. Install Claude Code and log in once:
-   ```powershell
-   winget install Anthropic.ClaudeCode
-   claude
-   ```
-2. Make the games folder and start Claude there:
-   ```powershell
-   mkdir $HOME\Documents\Projects\Roblox
-   cd $HOME\Documents\Projects\Roblox
-   claude
-   ```
-3. Say to Claude:
+Never done this before? Read **[00 · Start here](docs/00-start-here.md)**: it explains everything in plain words.
+
+1. Install **VS Code**: https://code.visualstudio.com (defaults are fine).
+2. In VS Code: **Extensions** (Ctrl+Shift+X) → search **Claude Code** (by Anthropic) → **Install** → open it and log in
+   with your Claude account.
+3. In File Explorer, create the folder `Documents\Projects\Roblox`. In VS Code: **File → Open Folder…** → that folder.
+4. In the Claude Code panel, paste:
    > **Clone https://github.com/TwiiinStudios/roblox-workflow into this folder, read its CLAUDE.md, and set up my PC.**
 
-Claude installs everything (Git, GitHub CLI, Rokit + tools, Roblox Studio, Rojo plugin, the Studio ↔ Claude connection),
-clones all game repos, and walks you through the few clicks only a human can do (Windows install prompts,
-GitHub login in the browser, logging in to Studio). Details: [01 · One-time setup](docs/01-one-time-setup.md).
+Claude installs everything else (Git, GitHub CLI, Rokit + tools, Roblox Studio, the Rojo plugin, the Studio ↔ Claude
+connection), downloads all our games, and tells you the few clicks only you can do: "Yes" on Windows install prompts,
+logging in to GitHub in your browser, logging in to Roblox Studio. Details: [01 · One-time setup](docs/01-one-time-setup.md).
 
 ## Team
 
@@ -41,15 +36,14 @@ GitHub login in the browser, logging in to Studio). Details: [01 · One-time set
 ## How it works
 
 ```
- You: "Add a fly shop next to spawn…"                    GitHub issue: "@claude add daily rewards"
-        │                                                              │
-        ▼                                                              ▼
- Claude Code on your PC                                   Claude in GitHub Actions
-   writes files (code, world, UI) ──rojo serve──► Studio   writes files, runs checks
-   play-tests via Studio MCP (play, walk, click,            │
-   screenshots, console) and fixes what it finds            │
-        │ "ship it"                                         │
-        ▼                                                   ▼
+ Discord: "I'm doing the fly shop"
+        │
+ VS Code → Claude: "Add a fly shop next to spawn… Test it in Studio."
+        │
+ Claude writes files (code, world, UI) ──rojo serve──► Studio (open in the background)
+   play-tests via Studio MCP (play, walk, click, screenshots, console), fixes what it finds
+        │ "ship it"
+        ▼
                     Pull Request ──► CI checks ✔ + Claude Review 💬
                          │ merge (you, or Claude when you say so)
                          ▼
@@ -68,6 +62,7 @@ GitHub login in the browser, logging in to Studio). Details: [01 · One-time set
 
 | # | Doc | Read it when |
 |---|---|---|
+| 00 | [Start here](docs/00-start-here.md) | **First.** Plain-language guide: what everything is, a normal session, FAQ |
 | 01 | [One-time setup](docs/01-one-time-setup.md) | New PC or new team member |
 | 02 | [Starting a new game](docs/02-new-game.md) | New game idea |
 | 03 | [Project structure](docs/03-project-structure.md) | How the AI builds each kind of thing |

@@ -1,61 +1,116 @@
 # 02 · Starting a new game
 
-Just tell Claude (started in your `Roblox` folder):
+Takes about **20 minutes**, once per game. Example game: **GrowAFrog**.
+Claude does everything it can; the steps marked 🧑 are Roblox/GitHub account actions only a human can do.
+
+| # | Step | Who | Time |
+|---|---|---|---|
+| 1 | Create the repo from the template | Claude | 1 min |
+| 2 | Create the TEST and LIVE experiences | 🧑 | 5 min |
+| 3 | Experience settings | 🧑 | 5 min |
+| 4 | Copy the IDs → give them to Claude | 🧑 → Claude | 2 min |
+| 5 | Create the publishing API key and store it | 🧑 | 4 min |
+| 6 | Turn on Claude for GitHub | 🧑 | 1 min |
+| 7 | First deploy + check | Claude, then 🧑 plays | 2 min |
+
+---
+
+## 1. Create the repo (Claude)
+
+In Claude Code, started in your `Roblox` folder:
 
 > "New game: **GrowAFrog**. Create it from the template with a GitHub repo in TwiiinStudios."
 
-Claude runs `roblox-workflow/scripts/new-game.ps1 -Name GrowAFrog -GitHub -GitHubOwner TwiiinStudios`, which:
-copies the template → fills in the name → installs tools → runs all checks → first commit → private GitHub repo → push.
+Claude runs `roblox-workflow/scripts/new-game.ps1 -Name GrowAFrog -GitHub -GitHubOwner TwiiinStudios`:
+copy template → fill in the name → install tools → run all checks → first commit → private repo `TwiiinStudios/GrowAFrog` → push.
 
-Then there are **4 things only a human can do** (Roblox and GitHub account actions). About 10 minutes:
+## 2. 🧑 Create two experiences
 
-## 1. Create two experiences (3 min)
+| Experience | Updated | Who plays | Saved data |
+|---|---|---|---|
+| `GrowAFrog [TEST]` | Automatically, ~1 min after every merge to `main` | You two (+ invited testers) | Test data, fine to wipe |
+| `GrowAFrog` (LIVE) | Only when you both decide to release | Real players | Real progress, never touch |
 
-| Experience | Purpose |
-|---|---|
-| `GrowAFrog [TEST]` | Every merged change lands here automatically. Play-test with friends. |
-| `GrowAFrog` | LIVE: the real game. Only updated when you press the release button. |
+They must be two separate **experiences** (not two places in one experience), because **DataStores belong
+to an experience**. A bug on TEST can then never damage LIVE players' saves.
 
-They're separate experiences so **TEST can never touch LIVE player data** (DataStores are per experience).
+Do this **twice** (first `GrowAFrog [TEST]`, then `GrowAFrog`):
 
-In Studio: **File → New → Baseplate** → **File → Publish to Roblox As → New experience → Creator: your group**
-→ name `GrowAFrog [TEST]`. Repeat for `GrowAFrog`. Then, for both: **Game Settings → Security →
-Enable Studio Access to API Services** → Save. Keep both **private** until release.
+1. Roblox Studio → **New** → **Baseplate**.
+2. **File → Publish to Roblox As…** → **Create new experience**.
+3. **Creator: the community (group)**, not your own account. ⚠️ This is the most important choice. Moving it later is painful.
+4. Name it → **Create**.
+5. Close the place **without saving it to your PC**. Its contents don't matter: the Deploy action replaces them with the real game.
 
-## 2. Give Claude the IDs (1 min)
+## 3. 🧑 Experience settings
 
-For each experience, copy from Creator Hub (**Creations → ⋯ on the experience**):
-**Copy Universe ID** and the **Start Place ID** (also visible in the game's URL: `roblox.com/games/<PLACE ID>`).
-Paste them to Claude:
+In Studio: **File → Open from Roblox** → the experience → **Home → Game Settings**:
 
-> "TEST universe 7123456789 place 123456789012, LIVE universe 7123450000 place 123450000000. Put them in deploy.json and ship it."
+| Setting | TEST | LIVE | Why |
+|---|---|---|---|
+| Security → **Enable Studio Access to API Services** | ✅ On | ✅ On | DataStores (saving) work in Studio tests |
+| Permissions → **Playability** | **Private** | **Private** until launch | Nobody stumbles on unfinished games |
+| **Avatar** (R15/R6, scaling, animations), **max players/server size** | Same as LIVE | Your choice | These aren't part of the game files, so Git can't keep them in sync. Keep both identical by hand. |
+| Name, icon, thumbnails, description, genre | Anything | Make them nice at launch | Only matters for LIVE |
 
-## 3. Create the publishing key (4 min)
+Before LIVE goes **public**, Roblox requires the **Content Maturity questionnaire**
+(Creator Hub → experience → Audience / Maturity). Do that at launch time, see [07 · Publishing](07-publishing.md).
 
-1. https://create.roblox.com → owner dropdown (top left) → **your group** → **Open Cloud → API Keys → Create API Key**.
-2. Name `GrowAFrog deploy`. Under **Access Permissions** add **`universe-places`**, add both experiences, operation **Write**.
-3. **Accepted IP addresses**: `0.0.0.0/0`. Save, then **copy the key** (shown once).
-4. Store it in GitHub **yourself**. Never paste keys into a chat, including to Claude:
-   ```powershell
-   gh secret set ROBLOX_API_KEY --repo TwiiinStudios/GrowAFrog
+If your teammate can't join the private TEST game: check the experience's Permissions and the group role's permissions.
+Their role must have access to the group's experiences.
+
+## 4. 🧑 → Claude: the IDs
+
+For each experience: [create.roblox.com](https://create.roblox.com) → top-left dropdown: **the community** →
+**Creations** → hover the experience → **⋯** →
+- **Copy Universe ID**
+- **Copy Start Place ID** (also the number in the game's URL: `roblox.com/games/<PLACE ID>/…`)
+
+Paste all four to Claude (IDs are not secret):
+
+> "TEST: universe 10767840551, place 125769981061146. LIVE: universe 10767840620, place 107254394835793."
+
+Claude puts them in `deploy.json`, `LIVE_UNIVERSE_ID` in `src/shared/Config.luau` (so code knows when it runs on LIVE),
+and the README's experiences table, then opens a PR.
+
+## 5. 🧑 Publishing API key
+
+1. [create.roblox.com](https://create.roblox.com) → top-left dropdown: **the community** → **Open Cloud → API Keys → Create API Key**.
+2. **Name:** `GrowAFrog deploy` (one key per game, so you can revoke one without breaking the others).
+3. **Access Permissions** → select API system **`universe-places`** → add **both** experiences → operation **Write**.
+4. **Security → Accepted IP addresses:** `0.0.0.0/0` (GitHub's servers use changing IPs).
+5. **Expiration:** none or long. **Save & Generate Key** → **copy the key** (shown only once).
+6. Store it in the repo **yourself**. ⚠️ Never paste a key into a chat, including to Claude. In the Claude Code prompt type:
    ```
-   (paste the key, Enter). Optional for publishing from your PC: create a `.env` file with `ROBLOX_API_KEY=<key>`.
+   ! gh secret set ROBLOX_API_KEY --repo TwiiinStudios/GrowAFrog
+   ```
+   paste the key, press Enter. (The `!` runs it as a normal terminal command; the key doesn't go to Claude.)
+7. Optional, only if you want to publish from your own PC: create a file `.env` in the game folder containing
+   `ROBLOX_API_KEY=<key>` (it's git-ignored).
 
-## 4. Claude on GitHub (1 min)
+Keep the key somewhere safe (e.g. a password manager) or just generate a new one if you ever need it again.
 
-In Claude Code inside the game folder: `/install-github-app` (stores `CLAUDE_CODE_OAUTH_TOKEN` in this repo).
-Needed per repo on the free GitHub plan.
+## 6. 🧑 Claude on GitHub
 
-## Check it works
+In Claude Code, inside the game folder: `/install-github-app` → choose **TwiiinStudios** → **All repositories** →
+it stores `CLAUDE_CODE_OAUTH_TOKEN` in this repo. Needed **per repo** on the free GitHub plan (org-level secrets don't
+reach private repos). Optional: enables the automatic PR review and `@claude` in PR comments. Everything else works without it.
 
-Ask Claude: *"Trigger a TEST deploy and tell me when it's green."* Then open `GrowAFrog [TEST]` on Roblox and press Play.
+## 7. First deploy and check
+
+> "Merge the IDs PR and check that TEST gets published."
+
+Claude merges → the **Deploy** action publishes to TEST → Claude confirms the new version number.
+🧑 Open `GrowAFrog [TEST]` on Roblox → **Play**. You should spawn on a grass baseplate: the whole pipeline works.
 
 ## Checklist
-- [ ] Repo on GitHub, both of you have access
-- [ ] TEST + LIVE experiences exist, API access on, private
-- [ ] `deploy.json` filled (by Claude)
-- [ ] `ROBLOX_API_KEY` secret set (by you)
-- [ ] Claude GitHub app / `CLAUDE_CODE_OAUTH_TOKEN` available to the repo
-- [ ] First Deploy run green, TEST playable
+
+- [ ] Repo `TwiiinStudios/<Game>` exists, teammate has access (org base permission: Write)
+- [ ] TEST + LIVE experiences created **under the community**
+- [ ] API access on, both private, avatar/server settings identical
+- [ ] IDs in `deploy.json`, `Config.luau`, README (Claude)
+- [ ] `ROBLOX_API_KEY` secret set (you)
+- [ ] `/install-github-app` done for the repo (you)
+- [ ] Deploy green, TEST playable
 
 Next: [04 · Daily workflow](04-daily-workflow.md).
