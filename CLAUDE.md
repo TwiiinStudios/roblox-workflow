@@ -26,7 +26,7 @@ The script also installs VS Code and the Claude Code extension.
 3. Walk them through each `[TODO]` one at a time. Only the human can do these: approve Windows install prompts,
    `gh auth login` (browser), open Roblox Studio once and log in. Re-run the script after each until there are no TODOs.
 4. Finish with: "In VS Code: File → Open Folder → Roblox\GrowAFrog (or another game), reopen the Claude panel,
-   and say 'Start a session'." and point them to `docs/00-start-here.md`.
+   and tell Claude what to build." and point them to `docs/00-start-here.md`.
 
 ## Starting a new game
 From the `Roblox` folder run
@@ -36,7 +36,7 @@ doing everything you can yourself (e.g. writing their IDs into `deploy.json`).
 
 ## Inside a game
 Follow that game's `CLAUDE.md` exactly: files are the only source of truth, the build order of preference,
-verification (check + Studio MCP play-test), the named routines ("Start a session", "Ship it", "Merge it", "Release"),
+verification (check + Studio MCP play-test), the workflow (automatic session setup, BUILD, SHIP, SHARE, RELEASE; never waste their prompts),
 and the LIVE rule: **never publish to LIVE unless explicitly asked in that message.**
 Never ask for, print or commit API keys or tokens. The humans set secrets themselves with `gh secret set`.
 

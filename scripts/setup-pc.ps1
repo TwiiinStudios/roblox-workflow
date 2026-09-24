@@ -217,5 +217,5 @@ Write-Host "`n================ SUMMARY ================" -ForegroundColor Cyan
 foreach ($line in $done) { Write-Host "  [done] $line" -ForegroundColor Green }
 foreach ($line in $todo) { Write-Host "  [TODO] $line" -ForegroundColor Yellow }
 if ($todo.Count -eq 0) {
-    Write-Host "`nThis PC is ready. Restart Claude Code, open Roblox Studio, and say 'Start a session' inside a game folder." -ForegroundColor Green
+    Write-Host "`nThis PC is ready. Open Roblox Studio, then VS Code in a game folder, and tell Claude what to build." -ForegroundColor Green
 }
