@@ -48,10 +48,11 @@ read the Output window and take screenshots.
 
 1. Open Roblox Studio (latest version) and open any place.
 2. Open the **Assistant** panel → **⋯** menu → **Manage MCP Servers**.
-3. Under **Quick connect**, turn on **Claude Code**.
-4. In a terminal: `claude mcp list` should list the Roblox Studio server.
+3. Turn on **Enable Studio as MCP server**. ⚠️ Required: without it Claude only gets "Request timed out".
+4. Claude Code side: `setup-pc.ps1` registers it for you. Otherwise, under **Quick connect**, turn on **Claude Code**.
+5. Close and reopen the Claude panel in VS Code. It connects to Studio when it starts, so open Studio first.
 
-If quick connect doesn't show Claude Code, add it by hand:
+To add the Claude Code side by hand instead:
 ```powershell
 claude mcp add --scope user Roblox_Studio -- cmd.exe /c '%LOCALAPPDATA%\Roblox\mcp.bat'
 ```

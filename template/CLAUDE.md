@@ -58,7 +58,9 @@ They may be beginners: explain in plain words, one step at a time, and never ass
   (`Start-Process build/game.rbxl` in PowerShell; skip if Studio already shows it) → tell the human the one thing to do:
   *"In Studio, click the Plugins tab → Rojo → Connect."* → confirm through the Studio MCP (`list_roblox_studios`, then a
   quick `execute_luau` that `ServerScriptService.Server` exists) → say "Ready, what do you want to build?".
-  If the Studio MCP tools are missing, tell them to restart the Claude Code panel with Studio open.
+  If the Studio MCP tools are missing: (1) Studio must be open, (2) one-time switch in Studio: Assistant panel → ⋯ →
+  Manage MCP Servers → **Enable Studio as MCP server**, (3) then close and reopen the Claude Code panel (MCP servers
+  connect when Claude starts). Until then, continue without in-Studio tests and say so.
 - **"Ship it"**: check passes → commit → push → `gh pr create` with what/why/verification → report the PR link and give
   a one-line message they can paste in Discord, e.g. `🐸 PR ready: fly shop next to spawn - <link>`.
 - **"Merge it"**: wait for CI (`gh pr checks --watch`) → `gh pr merge --squash --delete-branch` → `git switch main; git pull`

@@ -161,6 +161,8 @@ if (-not (Has 'claude')) {
         if ($ok) { $done.Add("Roblox Studio MCP registered in Claude Code (restart Claude Code to load it)") }
         else { $todo.Add("Studio MCP: in Studio open Assistant > ... > Manage MCP Servers > Quick connect > Claude Code.") }
     }
+    # Studio has its own on/off switch for this, which no script can flip. Always remind.
+    $todo.Add("ONE-TIME in Roblox Studio (skip if done before): open the Assistant panel > '...' menu > Manage MCP Servers > turn on 'Enable Studio as MCP server'. Then close and reopen the Claude panel in VS Code.")
 }
 
 # 7. Roblox\CLAUDE.md --------------------------------------------------------------
