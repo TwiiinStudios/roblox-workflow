@@ -119,7 +119,7 @@ Claude merges → the **Deploy** action publishes to TEST → Claude confirms th
 
 ## Checklist
 
-- [ ] Repo `TwiiinStudios/<Game>` exists, teammate has access (org base permission: Write)
+- [ ] Repo `TwiiinStudios/<Game>` exists, the **Game Devs** team has Write on it (the script does this; org base permission is Read)
 - [ ] TEST + LIVE experiences created **under the community**
 - [ ] API access on, both private, avatar/server settings identical
 - [ ] IDs in `deploy.json`, `Config.luau`, README (Claude)
