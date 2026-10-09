@@ -29,6 +29,9 @@ param(
     # GitHub user or organisation to create the repo under. Default: your own account.
     [string]$GitHubOwner,
 
+    # Org team that gets write access to the new repo (the org's base permission is Read).
+    [string]$GitHubTeam = 'game-devs',
+
     # Create the git repo and stage the files, but don't make the first commit.
     [switch]$SkipCommit
 )
@@ -112,6 +115,10 @@ try {
         Step "Creating private GitHub repo and pushing"
         $repo = if ($GitHubOwner) { "$GitHubOwner/$Name" } else { $Name }
         Invoke-Native 'gh' @('repo', 'create', $repo, '--private', '--source', '.', '--remote', 'origin', '--push')
+        if ($GitHubOwner -and $GitHubTeam) {
+            Step "Giving the $GitHubTeam team write access"
+            Invoke-Native 'gh' @('api', '--method', 'PUT', "orgs/$GitHubOwner/teams/$GitHubTeam/repos/$repo", '-f', 'permission=push', '--silent')
+        }
     }
 } finally {
     Pop-Location

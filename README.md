@@ -45,6 +45,7 @@ More: [04 · Daily workflow](docs/04-daily-workflow.md) · one page: [10 · Chea
 | | |
 |---|---|
 | GitHub owner | `TwiiinStudios` |
+| GitHub team | `game-devs` (Write on every game repo; org base permission is Read) |
 | Roblox group | (fill in when created) |
 
 ## How it works
