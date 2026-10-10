@@ -36,6 +36,7 @@ Keep "…and ship it" for small, clear changes. For bigger or visual things, loo
 | Say | When | Claude does |
 |---|---|---|
 | **"Share it"** | Your teammate should look before it goes on TEST | Stops at the pull request, gives you a link for Discord |
+| **"Do *Example 1* from the board"** | A task is waiting on [the task board](https://tasks.twiiinstudio.cloud) | Reads the task, builds it, moves it to 🧪 Testing with a note. **You** decide when it's ✅ Done (say *"mark it done"*). Needs **🤖 Connect Claude** once per PC |
 | **"What changed?"** | Anytime | Summarises what's new, in plain words |
 | **"What did we decide about …?"** | Anytime | Answers from `DESIGN.md` |
 | **"Undo that"** | You don't like the last change | Reverts it |
