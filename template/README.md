@@ -22,7 +22,8 @@ First time on this PC? Tell Claude in the `Roblox` folder: *"Set up my PC."*
 
 | Command | What it does |
 |---|---|
-| `lune run tools/check.luau --fix` | Format + lint + world lint + tests + build (the same as CI) |
+| `lune run tools/check.luau --fix` | Format + lint + world files + names + model safety + tests + build + performance budget (the same as CI) |
+| `lune run tools/cloudtest.luau` | Runs the server for real on a Roblox cloud server with `tests/cloud` (needs `.env` and the TEST ids) |
 | `lune run tools/build.luau` | Builds `build/game.rbxl` from the files |
 | `rojo serve` | Live-syncs files into Studio |
 | `lune run tools/capture.luau` | Saves Studio-made things (in `Captured` folders) back into files |

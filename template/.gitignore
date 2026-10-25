@@ -23,3 +23,6 @@ wally.lock.bak
 .DS_Store
 Thumbs.db
 *.log
+
+# Python caches (tools/)
+__pycache__/

@@ -79,6 +79,8 @@ and the README's experiences table, then opens a PR.
 1. [create.roblox.com](https://create.roblox.com) → top-left dropdown: **the community** → **Open Cloud → API Keys → Create API Key**.
 2. **Name:** `GrowAFrog deploy` (one key per game, so you can revoke one without breaking the others).
 3. **Access Permissions** → select API system **`universe-places`** → add **both** experiences → operation **Write**.
+   Then add API system **`luau-execution-sessions`** → the **TEST** experience → **Read** and **Write** (the cloud test,
+   `tools/cloudtest.luau`, runs the server on a Roblox cloud server with it; CI runs it on every PR).
 4. **Security → Accepted IP addresses:** `0.0.0.0/0` (GitHub's servers use changing IPs).
 5. **Expiration:** none or long. **Save & Generate Key** → **copy the key** (shown only once).
 6. Store it in the repo **yourself**. ⚠️ Never paste a key into a chat, including to Claude. In the Claude Code prompt type:
@@ -86,8 +88,9 @@ and the README's experiences table, then opens a PR.
    ! gh secret set ROBLOX_API_KEY --repo TwiiinStudios/GrowAFrog
    ```
    paste the key, press Enter. (The `!` runs it as a normal terminal command; the key doesn't go to Claude.)
-7. Optional, only if you want to publish from your own PC: create a file `.env` in the game folder containing
-   `ROBLOX_API_KEY=<key>` (it's git-ignored).
+7. On your own PC (to publish or run the cloud test from there): create a file `.env` in the game folder containing
+   `ROBLOX_API_KEY=<key>` (it's git-ignored; `.env.example` shows the lines). For Claude to upload images and models
+   itself, the studio's group key with **Assets** Read + Write goes on the line `ROBLOX_ASSETS_KEY=<key>` too.
 
 Keep the key somewhere safe (e.g. a password manager) or just generate a new one if you ever need it again.
 

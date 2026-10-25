@@ -49,6 +49,12 @@
 		},
 		"Lighting": {
 			"$path": "world/Lighting"
+		},
+		"HttpService": {
+			"$className": "HttpService",
+			"$properties": {
+				"HttpEnabled": true
+			}
 		}
 	}
 }

@@ -15,8 +15,15 @@ local steps = {
 		else { "Format check", "stylua", { "--check", "src", "tests", "tools" } },
 	{ "Lint", "selene", { "src" } },
 	{ "World files", "lune", { "run", "tools/lint-world.luau" } },
+	{ "Names", "lune", { "run", "tools/names.luau" } },
+	{ "Models", "lune", { "run", "tools/lint-models.luau" } },
+	{ "No scripts in models", "lune", { "run", "tools/model-scripts.luau" } },
+	if fix
+		then { "Far stand-ins", "lune", { "run", "tools/lod.luau" } }
+		else { "Far stand-ins", "lune", { "run", "tools/lod.luau", "--check" } },
 	{ "Unit tests", "lune", { "run", "tools/test.luau" } },
 	{ "Build", "lune", { "run", "tools/build.luau" } },
+	{ "Performance budget", "lune", { "run", "tools/budget.luau" } },
 }
 
 for _, step in steps do

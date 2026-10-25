@@ -14,6 +14,8 @@ local net = require("@lune/net")
 local process = require("@lune/process")
 local serde = require("@lune/serde")
 
+local readApiKey = require("./lib/ApiKey")
+
 local PLACE_FILE = "build/game.rbxl"
 
 local function fail(message: string): never
@@ -35,22 +37,6 @@ local deploy = serde.decode("json", fs.readFile("deploy.json"))
 local ids = deploy[target]
 if not ids or (ids.universeId or 0) == 0 or (ids.placeId or 0) == 0 then
 	fail(`deploy.json has no universeId/placeId for "{target}" yet`)
-end
-
-local function readApiKey(): string?
-	local fromEnv = process.env.ROBLOX_API_KEY
-	if fromEnv and fromEnv ~= "" then
-		return fromEnv
-	end
-	if fs.isFile(".env") then
-		for line in string.gmatch(fs.readFile(".env"), "[^\r\n]+") do
-			local value = string.match(line, "^%s*ROBLOX_API_KEY%s*=%s*(.-)%s*$")
-			if value and value ~= "" then
-				return value
-			end
-		end
-	end
-	return nil
 end
 
 local apiKey = readApiKey()
