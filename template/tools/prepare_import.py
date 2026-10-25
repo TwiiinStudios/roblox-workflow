@@ -36,7 +36,10 @@ for line in open(os.path.join(HERE, "names", "allowed.txt"), encoding="utf-8"):
     if not line.startswith("#"):
         ALLOWED.update(w.lower() for w in re.findall(r"[A-Za-z]+", line))
 
-OUT_DIR = os.path.join(os.path.expanduser("~"), "Downloads", "ready")
+# Where prepared files go: Downloads/ready on a PC; an agent on the server sets READY_DIR to its own build/ready
+# (a folder of its worktree, not shared with other agents).
+READY = os.environ.get("READY_DIR") or os.path.join(os.path.expanduser("~"), "Downloads", "ready")
+OUT_DIR = READY
 MIN_SIZE, MAX_SIZE = 512, 1024
 NEAREST = 9728
 JSON_CHUNK, BIN_CHUNK = 0x4E4F534A, 0x004E4942
