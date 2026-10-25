@@ -44,7 +44,10 @@ import re
 import struct
 import sys
 
-OUT_DIR = os.path.join(os.path.expanduser("~"), "Downloads", "ready", "merged")
+# Where prepared files go: Downloads/ready on a PC; an agent on the server sets READY_DIR to its own build/ready
+# (a folder of its worktree, not shared with other agents).
+READY = os.environ.get("READY_DIR") or os.path.join(os.path.expanduser("~"), "Downloads", "ready")
+OUT_DIR = os.path.join(READY, "merged")
 MAX_TRIANGLES = 9000
 # Two pieces whose faces lie on the same plane, facing the same way, flicker where they overlap
 # (z-fighting: a door frame flush with the wall around it). The smaller face is nudged this far out

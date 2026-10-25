@@ -33,7 +33,10 @@ from merge_model import (
     read_accessor,
 )
 
-OUT_DIR = os.path.join(os.path.expanduser("~"), "Downloads", "ready", "rig")
+# Where prepared files go: Downloads/ready on a PC; an agent on the server sets READY_DIR to its own build/ready
+# (a folder of its worktree, not shared with other agents).
+READY = os.environ.get("READY_DIR") or os.path.join(os.path.expanduser("~"), "Downloads", "ready")
+OUT_DIR = os.path.join(READY, "rig")
 LIMBS = {"Torso", "Head", "Left Arm", "Right Arm", "Left Leg", "Right Leg"}
 
 
