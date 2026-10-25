@@ -2,7 +2,8 @@
 
 | Level | Who / how | Time | Catches |
 |---|---|---|---|
-| 1. `check.luau` | Claude, every change (format, lint, world lint, unit tests, build) | 5 s | Typos, broken builds, logic bugs in tested modules |
+| 1. `check.luau` | Claude, every change (format, lint, world files, names, models, no scripts in models, unit tests, build, performance budget) | 10 s | Typos, broken builds, logic bugs in tested modules, risky names, other people's scripts in models, a game that got too heavy to load |
+| 1b. Cloud test | Claude, every change, and CI on every PR (`lune run tools/cloudtest.luau`) | 1 min | The real server on a Roblox cloud server: every service starts, the world builds, `tests/cloud` specs pass, no warnings |
 | 2. AI play-test in Studio | Claude via Studio MCP | 1-3 min | Runtime errors, broken features, things that look wrong |
 | 3. Multiplayer in Studio | You or Claude: **Test → Clients and Servers** | 1 min | Remotes, trading, replication |
 | 4. CI on the PR | GitHub, automatic | 1 min | Same as 1, on a clean machine, plus a downloadable `game.rbxl` |

@@ -1,0 +1,7 @@
+# Dependabot: weekly updates for the GitHub Actions this repository uses (security fixes come at once).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

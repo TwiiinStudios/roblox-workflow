@@ -1,0 +1,26 @@
+# Security checks: on every pull request, on main, and every Monday (new problems turn up in old code too).
+# - no secrets (API keys, tokens) anywhere in the code or the git history (gitleaks)
+name: Security
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "30 5 * * 1"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  secrets:
+    name: No secrets in the code or its history
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - name: gitleaks (pinned version, checksum checked)
+        run: |
+          curl -sSL -o gitleaks.tar.gz https://github.com/gitleaks/gitleaks/releases/download/v8.21.2/gitleaks_8.21.2_linux_x64.tar.gz
+          echo "5bc41815076e6ed6ef8fbecc9d9b75bcae31f39029ceb55da08086315316e3ba  gitleaks.tar.gz" | sha256sum -c -
+          tar xzf gitleaks.tar.gz gitleaks
+          ./gitleaks git . --no-banner --redact --exit-code 1

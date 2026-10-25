@@ -11,6 +11,8 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    env:
+      HAS_ROBLOX_KEY: ${{ secrets.ROBLOX_API_KEY != '' }}
     steps:
       - uses: actions/checkout@v6
 
@@ -31,11 +33,29 @@ jobs:
       - name: World files
         run: lune run tools/lint-world.luau
 
+      - name: Names (family-friendly, tools/names)
+        run: lune run tools/names.luau
+
+      - name: Models
+        run: lune run tools/lint-models.luau
+
+      - name: No scripts in models (other people's code stays out)
+        run: lune run tools/model-scripts.luau
+
       - name: Unit tests
         run: lune run tools/test.luau
 
       - name: Build place
         run: lune run tools/build.luau
+
+      - name: Performance budget (meshes, images, parts… what a new player downloads)
+        run: lune run tools/budget.luau
+
+      - name: Cloud test (the server on a Roblox cloud server)
+        if: github.event_name == 'pull_request' && env.HAS_ROBLOX_KEY == 'true'
+        run: lune run tools/cloudtest.luau --no-build
+        env:
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}
 
       - name: Upload built place
         uses: actions/upload-artifact@v4
