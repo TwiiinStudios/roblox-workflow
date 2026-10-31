@@ -10,7 +10,7 @@ on:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, twiiin] # our server (TaskBoard deploy/ci-runner-install.sh)
     env:
       HAS_ROBLOX_KEY: ${{ secrets.ROBLOX_API_KEY != '' }}
     steps:

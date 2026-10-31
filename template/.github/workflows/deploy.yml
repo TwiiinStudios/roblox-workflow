@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, twiiin] # our server (TaskBoard deploy/ci-runner-install.sh)
     env:
       TARGET: ${{ inputs.target || 'test' }}
       HAS_DISCORD: ${{ secrets.DISCORD_WEBHOOK_URL != '' }}
