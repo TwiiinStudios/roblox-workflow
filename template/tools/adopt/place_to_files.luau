@@ -81,7 +81,11 @@ local project = {
 }
 fs.writeFile("default.project.json", serde.encode("json", project, true))
 
-local synced = process.exec("rojo", { "syncback", "-y", "--input", placePath, "default.project.json" }, { stdio = "inherit" })
+local synced = process.exec(
+	"rojo",
+	{ "syncback", "-y", "--input", placePath, "default.project.json" },
+	{ stdio = "inherit" }
+)
 if not synced.ok then
 	print("\n[adopt] FAILED: rojo syncback failed (see the error above)")
 	process.exit(1)
@@ -92,7 +96,10 @@ project = serde.decode("json", fs.readFile("default.project.json"))
 local notes = {}
 local function extra(service: string, name: string, node: any)
 	project.tree[service] = project.tree[service] or { ["$className"] = service }
-	if project.tree[service][name] or game:FindFirstChildOfClass(service) and game:FindFirstChildOfClass(service):FindFirstChild(name) then
+	if
+		project.tree[service][name]
+		or game:FindFirstChildOfClass(service) and game:FindFirstChildOfClass(service):FindFirstChild(name)
+	then
 		table.insert(notes, `{service}.{name} already exists in the game: the template's {name} wasn't added`)
 		return
 	end
@@ -108,7 +115,8 @@ end
 if t.HttpService and not project.tree.HttpService then
 	-- (the game's own setting wins; the template turns it on for its error reports)
 	local http = game:FindFirstChildOfClass("HttpService")
-	project.tree.HttpService = { ["$className"] = "HttpService", ["$properties"] = { HttpEnabled = if http then http.HttpEnabled else true } }
+	project.tree.HttpService =
+		{ ["$className"] = "HttpService", ["$properties"] = { HttpEnabled = if http then http.HttpEnabled else true } }
 end
 fs.writeFile("default.project.json", serde.encode("json", project, true))
 
@@ -118,7 +126,10 @@ local ok, grid = pcall(function()
 	return terrain and terrain.SmoothGrid
 end)
 if ok and grid and #tostring(grid) > 200 then
-	table.insert(notes, `the game has terrain ({#tostring(grid)} bytes): Rojo can't keep it in files. Rebuild it in code (a World builder) or capture it`)
+	table.insert(
+		notes,
+		`the game has terrain ({#tostring(grid)} bytes): Rojo can't keep it in files. Rebuild it in code (a World builder) or capture it`
+	)
 end
 local function scan(dir: string)
 	for _, entry in fs.readDir(dir) do
@@ -130,7 +141,10 @@ local function scan(dir: string)
 			for _, root in model do
 				for _, d in { root, table.unpack(root:GetDescendants()) } do
 					if d:IsA("LuaSourceContainer") then
-						table.insert(notes, `{path} has a script inside ({d:GetFullName()}): split it out so it's a .luau file`)
+						table.insert(
+							notes,
+							`{path} has a script inside ({d:GetFullName()}): split it out so it's a .luau file`
+						)
 						break
 					end
 				end
@@ -150,4 +164,8 @@ print(`\n[adopt] {scripts} scripts brought over into src/ (default.project.json 
 for _, note in notes do
 	print(`[adopt] NOTE: {note}`)
 end
-print("[adopt] Next: lune run tools/build.luau, then lune run tools/adopt/same_game.luau " .. placePath .. " build/game.rbxl")
+print(
+	"[adopt] Next: lune run tools/build.luau, then lune run tools/adopt/same_game.luau "
+		.. placePath
+		.. " build/game.rbxl"
+)
