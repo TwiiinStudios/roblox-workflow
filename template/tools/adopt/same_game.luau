@@ -3,7 +3,8 @@
 
 	    lune run tools/adopt/same_game.luau <original.rbxl> <built.rbxl>
 
-	Compares every object (by its path and class), every script's source and every setting a script can read.
+	Compares every object (by its path and class), every script's source and every setting a script can read. Code
+	that only differs by StyLua's formatting (the checks format every script) counts as the same.
 	Ends with "Same game" and exit 0, or lists what differs and exits 1. Roblox's own empty services, the camera,
 	the terrain (place_to_files reports it) and this template's extras (Packages, HttpService) don't count.
 ]]
@@ -67,6 +68,20 @@ local function properties(className: string)
 	return names
 end
 
+-- The original's code as StyLua writes it (the checks format every script; that's the same code), else nil.
+local function formatted(source: string): string?
+	-- (through a file: a big script through stdin comes back empty)
+	if not fs.isDir("build/tmp") then
+		fs.writeDir("build/tmp")
+	end
+	local file = "build/tmp/same_game.luau"
+	fs.writeFile(file, source)
+	local result = process.exec("stylua", { file })
+	local text = if result.ok then fs.readFile(file) else nil
+	fs.removeFile(file)
+	return text
+end
+
 local a, countA = index(before)
 local b, countB = index(after)
 local problems = {}
@@ -93,7 +108,13 @@ for key, d in a do
 			local okB, vb = pcall(function()
 				return other[name]
 			end)
-			if okA and okB and va ~= vb and tostring(va) ~= tostring(vb) then
+			if
+				okA
+				and okB
+				and va ~= vb
+				and tostring(va) ~= tostring(vb)
+				and not (name == "Source" and formatted(va) == vb)
+			then
 				local shown = if name == "Source" then "(the code differs)" else `{tostring(va)} -> {tostring(vb)}`
 				problem(`{key}.{name}: {shown}`)
 			end
